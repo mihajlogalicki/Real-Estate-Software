@@ -27,7 +27,7 @@ export class AddPropertyComponent {
   public addPropertyForm : FormGroup;
   public isNextButtonClicked : boolean;
   public property = new Property();
-  public cityOptions : Array<string>;
+  public cityOptions : any[];
 
   public propertyView : IPropertyBase = 
   {

@@ -47,8 +47,10 @@
                                 [options]="cityOptions" 
                                 [(ngModel)]="propertyView.City"
                                 formControlName="City"
+                                optionLabel="name"
+                                optionValue="id"
                                 placeholder="Select a City" />
-                                
+
                             <div class="error-block" *ngIf="City.hasError('required') && City.touched">
                                 <p>City  is required</p>
                             </div>
