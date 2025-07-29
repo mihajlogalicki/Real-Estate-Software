@@ -1,0 +1,39 @@
+<div class="card">
+    <div class="card-img-wrapper">
+            <img *ngIf="property.Image; else defaultImage" class="card-img-top" src="assets/{{property.Image}}.png">
+            <ng-template #defaultImage>
+                <img class="card-img-top" src="assets/default.jpg">
+            </ng-template>
+            <ul *ngIf="showIcons" class="list-inline text-center member-icons animate">
+                <li class="list-inline-item">
+                    <button class="btn btn-primary">
+                        <i routerLink="/property-detail/{{property.Id}}" class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                </li>
+                <li class="list-inline-item">
+                    <button class="btn btn-primary">
+                        <i class="fa-solid fa-address-book"></i>
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body p-1">
+            <h2 class="mb-0">{{ property.PropertyType }}</h2>
+
+            in {{ property.Name }}
+            <span *ngIf="property.Name">,</span>
+            {{ property.City }}
+
+            <h6 class="mt-2">{{ property.FurnishingType }}</h6>
+            <span *ngIf="property.FurnishingType != 'Unfurnished'">
+                Furnished | Ready to Move
+            </span>
+
+            <hr class="mt-0 mb-2">
+
+            <h6 class="mb-0">Price: <span class="card-item fw-bold">{{ property.Price }} USD.</span> |
+            Total Area: <span class="card-item fw-bold">{{ property.TotalArea }}m<sup>2</sup>
+            </span></h6>
+        </div>
+</div>
+ 

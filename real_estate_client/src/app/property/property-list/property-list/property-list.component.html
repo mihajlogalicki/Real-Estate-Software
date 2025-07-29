@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="search-container mb-3">
+        <input pInputText type="text" placeholder="Search" name="searchText" [(ngModel)]="searchText" class="col-3 me-2 inputSearch"/>
+
+         <p-dropdown
+            [options]="sortOptions" 
+            [(ngModel)]="sortBy"
+            placeholder="Sort By" />
+
+            <span class="ms-2" (click)="orderBy()">
+                <i *ngIf="sortByDirection === 'asc' " class="fa-solid fa-arrow-up-wide-short fa-lg"></i>
+                <i *ngIf="sortByDirection === 'desc' " class="fa-solid fa-arrow-down-wide-short fa-lg" ></i>
+            </span>
+    </div>
+</div>
+<div class="row">
+    <div *ngFor="let property of properties | filter: searchText: 'Name' | sort: [sortBy, sortByDirection] " class="shadow-lg col-sm-4 p-3">
+        <app-property-card
+            [property]="property">
+        </app-property-card>
+    </div>
+</div>

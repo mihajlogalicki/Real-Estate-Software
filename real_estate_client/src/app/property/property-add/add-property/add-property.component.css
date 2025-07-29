@@ -1,0 +1,28 @@
+.ng-invalid.ng-touched {
+    border-color: #dc2626
+}
+.error-block {
+    color:#dc2626
+}
+.photo-control {
+    min-height: 300px;
+    vertical-align: middle;
+    text-align: center;
+    border: 1px dashed blue;
+    margin: 2px;
+}
+.card-header {
+    color: #fff;
+    background-color: #10b981;
+    border-radius: 1px;
+    height: 36px;
+}
+.valid-tab-group {
+    background-color: #89bd7d;
+    color: #fff;
+    border: none;
+}
+.p-tab.valid-tab-group:hover {
+    background-color: #6eb65e;
+    color: #fff;;
+}

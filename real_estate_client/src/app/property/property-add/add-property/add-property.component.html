@@ -1,0 +1,206 @@
+<p-toast></p-toast>
+<div class="row">
+    <div class="col-8 m-auto p-0 shadow-lg bg-white">
+        <div class="card-header p-1">
+           <h4>Add Your Property</h4>
+        </div>
+
+        <p-tabs [value]="currentTab">
+            <p-tablist>
+                <p-tab [ngClass]="{'valid-tab-group': BasicInfoFormGroup.valid}" [value]="0">Basic Info</p-tab>
+                <p-tab [ngClass]="{'valid-tab-group': PricingInfoFormGroup.valid}" [value]="1">Pricing and Area</p-tab>
+                <p-tab [ngClass]="{'valid-tab-group': AddressFormGroup.valid}" [value]="2">Address</p-tab>
+                <p-tab [ngClass]="{'valid-tab-group': OtherDetailsFormGroup.valid}" [value]="3">Other Details</p-tab>
+                <p-tab [value]="4">Photos</p-tab>
+            </p-tablist>
+
+            <p-tabpanels>
+                <div class="card-body">
+                <form (ngSubmit)='Save()' [formGroup]="addPropertyForm">
+                    <p-tabpanel [value]="0" formGroupName="BasicInfo">
+                        <div class="form-group">                      
+                            <p-radiobutton value="1" formControlName="RealEstateType"/>
+                            <label for="sell" class="me-2 ">Sell</label>
+
+                            <p-radiobutton value="2" formControlName="RealEstateType"/>
+                            <label  for="rent">Rent</label>
+
+                            <h5 class="error-block ms-1 d-inline" *ngIf="RealEstateType.hasError('required')">*</h5>
+                        </div>                
+
+                        <div class="form-group mt-3">
+                            <div>
+                                <label>In Building/Society/Project</label>
+                            </div>   
+                            <input type="text" class="form-control" formControlName="Name" [(ngModel)]="propertyView.Name">
+
+                            <div class="error-block" *ngIf="Name.hasError('required') && Name.touched">
+                                <p>Property Name is required</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <div>
+                                <label>City</label>
+                            </div>                     
+                            <input type="text" class="form-control" formControlName="City" [(ngModel)]="propertyView.City">
+                        </div>
+        
+                        <div class="form-group mt-3">
+                            <div>
+                                <label>Property Type</label>
+                            </div>
+                            <div *ngFor="let property of propertyTypes" class="d-inline me-1">                      
+                                <p-radiobutton formControlName="PropertyType" [value]="property" [(ngModel)]="propertyView.PropertyType"></p-radiobutton>
+                                <label> {{ property }}</label>
+                            </div>
+
+                            <h5 class="error-block d-inline" *ngIf="PropertyType.hasError('required')">*</h5>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <div>
+                                <label for="type">Furnishing Type</label>
+                            </div>                  
+                            <div *ngFor="let furnishingType of furnishingTypes" class="d-inline me-2">
+                                <p-radiobutton formControlName="furnishingType" [value]="furnishingType" [(ngModel)]="propertyView.FurnishingType"></p-radiobutton>
+                                <label> {{ furnishingType }}</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-3">                                                     
+                            <button type="button" class="btn btn-outline-success me-2 btn-sm" (click)="currentTab = 1">Next</button>                    
+                        </div>
+                    </p-tabpanel>
+                    <p-tabpanel [value]="1" formGroupName="PricingInfo">
+                        <div class="form-group">
+                            <label *ngIf="RealEstateType.value == 1">Price (IN USD)</label>
+                            <label *ngIf="RealEstateType.value == 2">Rent (IN USD)</label>
+
+                            <input type="number" class="form-control" formControlName="Price" [(ngModel)]="propertyView.Price">
+
+                            <div class="error-block" *ngIf="Price.hasError('required') && Price.touched">
+                                <p>{{RealEstateType.value == 1 ? ' Price' : 'Rent'}} amount is required</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Security (In USD)</label>
+                            <input type="number" class="form-control" formControlName="Security">
+                        </div>
+                        <div class="form-group">
+                            <label>Maintenance (In USD)</label>
+                            <input type="number" class="form-control" formControlName="Maintenance">
+                        </div>
+                        <div class="form-group">
+                            <label>Total Area</label>
+                            <input type="text" formControlName="TotalArea" [(ngModel)]="propertyView.TotalArea" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Carpet Area (In m<sup>2</sup>)</label>
+                            <input type="text" class="form-control" formControlName="CarpetArea">
+                        </div>
+
+                        <button type="button" class="btn btn-outline-success mt-2 me-2 btn-sm" (click)="currentTab = 2">Next</button>
+                        <button type="button" class="btn btn-outline-success mt-2 me-2 btn-sm" (click)="currentTab = 0">Back</button>
+                    </p-tabpanel>
+                    <p-tabpanel [value]="2" formGroupName="Address">
+                        <div class="form-group">
+                            <label>Floor</label>
+                            <input type="number" class="form-control" formControlName="FloorNo">
+                        </div>
+                        <div class="form-group">
+                            <label>Total Floor</label>
+                            <input type="number" class="form-control" formControlName="TotalFloor">
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" class="form-control" formControlName="Address">
+                        </div>
+                        <div class="form-group">
+                            <label>Landmark</label>
+                            <input type="text" class="form-control" formControlName="Landmark">
+                        </div>
+
+                        <button type="button" class="btn btn-outline-success mt-2 me-2 btn-sm" (click)="currentTab = 3">Next</button>
+                        <button type="button" class="btn btn-outline-success mt-2 me-2 btn-sm" (click)="currentTab = 1">Back</button>
+                    </p-tabpanel>
+                    <p-tabpanel [value]="3" formGroupName="OtherDetails">
+                        <div class="form-group mt-1">
+                            <div>
+                                <label>Ready to Move</label>
+                            </div>
+                        
+                            <p-radiobutton value="1" formControlName="RTM"/>
+                            <label class="me-2 ">Yes</label>
+
+                            <p-radiobutton value="2" formControlName="RTM"/>
+                            <label>No</label>
+                        </div>
+                        <div *ngIf="RTM.value == 1" class="form-group mt-1">
+                            <label>Age of Property</label>
+                            <input type="number" class="form-control" formControlName="AOP">
+                        </div>
+                        <!-- value == 2 -->
+                        <div *ngIf="RTM.value == 2">
+                            <div class="form-group mt-2">
+                                <div>
+                                    <label>Possession/Avaialble From</label>
+                                </div>                       
+                                <p-datepicker [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" formControlName="Possession" dateFormat="dd/mm/yy" />
+                            </div>
+                        </div>
+                        <div class="form-group  mt-1">
+                            <div>
+                                <label>Gated Community</label>
+                            </div>
+                           
+                            <p-radiobutton value="1" formControlName="Gated"/>
+                            <label class="me-2 ">Yes</label>
+
+                            <p-radiobutton value="2" formControlName="Gated"/>
+                            <label>No</label>
+                        </div>
+                        <div class="form-group  mt-1">
+                            <div>
+                                <label>Main Entrance</label>
+                            </div>                        
+
+                            <div *ngFor="let entrance of mainEntrances" class="d-inline me-1">                      
+                                <p-radiobutton class="me-1" [value]="entrance" formControlName="MainEntrance"></p-radiobutton>
+                                <label> {{ entrance }}</label>
+                            </div>
+                        </div>
+                        <div class="form-group mt-1">
+                            <label>Description</label>
+                            <textarea type="text" class="form-control" rows="6" formControlName="Description"></textarea>
+                        </div>
+
+                        <button type="button" class="btn btn-outline-success mt-2 me-2 btn-sm" (click)="currentTab = 4">Next</button>
+                        <button type="button" class="btn btn-outline-success mt-2 me-2 btn-sm" (click)="currentTab = 2">Back</button>
+                    </p-tabpanel>
+                        <p-tabpanel [value]="4">
+                            <div class="photo-control">
+                                <button class="mt-5" type="button">Upload</button> <br>
+                                This is under construction
+                            </div>
+
+                            <button type="submit" class="btn btn-outline-success mt-2 me-2 btn-sm" >Save</button> 
+                            <button type="button" class="btn btn-outline-success mt-2 me-2 btn-sm" (click)="currentTab = 3">Back</button>
+                    </p-tabpanel>
+            </form>
+        </div>  
+        </p-tabpanels>
+        </p-tabs>
+    </div>
+    <div class="col-4">
+        <div class="card-header p-1">
+            <h4>Your Property Preview</h4>
+        </div>
+        <div class="shadow-lg p-3 bg-white">
+          <app-property-card 
+            [property]="propertyView"
+            [showIcons]="false">
+          </app-property-card>
+        </div>
+    </div>
+</div>

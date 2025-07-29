@@ -1,0 +1,105 @@
+<div class="row shadow">
+    <div class="col-sm-4 p-0">
+        <div class="card">
+            <div class="card-img-wrapper">
+                <img *ngIf="property.Image" src="assets/{{property.Image}}.png" class="card-img-top" alt="">
+                <img *ngIf="!property.Image" src="assets/default.jpg" class="card-img-top" alt="">
+            </div>
+            <div class="card-body">
+                <h1 class="card-title">{{property.Name}}</h1>
+                <div>
+                    <strong>{{property.PropertyType}}  ${{property.Price}}</strong>
+                </div>
+                <div>
+                   <strong>in {{property.City}}</strong>
+                </div> <hr>
+                <div>
+                    <strong>Total Area: </strong>
+                    {{property.TotalArea}} m<sup>2</sup>
+                </div>
+        
+                <div>
+                    <strong>Carpet Area: </strong>
+                    {{property.CarpetArea}} m<sup>2</sup>
+                </div>
+                <div>
+                    <strong>Furnishing Type: </strong>
+                    {{property.FurnishingType}}
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="btn-group d-flex">
+                  <button class="btn btn-primary">Like</button>
+                  <button class="btn btn-success">Message</button>
+                </div>
+              </div>
+        </div>
+    </div>
+    <div class="col-sm-8 p-0">
+        <p-tabs [value]="0">
+            <p-tablist>
+                <p-tab [value]="0">Overview</p-tab>
+                <p-tab [value]="1">Address</p-tab>
+                <p-tab [value]="2">Photos</p-tab>
+                <p-tab [value]="3">Contact</p-tab>
+            </p-tablist>
+            <p-tabpanels>
+                <div class="card-body">
+                    <p-tabpanel [value]="0">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="heading">
+                                    <strong>Project Name</strong>
+                                    <p>{{property.Name}}</p>
+                                </div>
+              
+                                <div class="heading">
+                                    <strong>Floor Number</strong>
+                                    <p>{{property.FloorNo}}</p>
+                                </div>
+              
+                                <div class="heading">
+                                    <strong>Age of Property</strong>
+                                    <p>{{property.AOP}}</p>
+                                </div>
+              
+                                <div class="heading">
+                                    <strong>Posession</strong>
+                                    <p>{{property.Possession}}</p>
+                                </div>
+                            </div>
+                     </div>
+                    </p-tabpanel>
+                    <p-tabpanel [value]="1">
+                        <div class="col-sm-12">
+                            <h1>Address</h1>
+                            <div class="heading">
+                                <strong>{{property.Address}}</strong><br/>
+                                <strong>{{property.Address2}}</strong><br/>
+                                <strong>{{property.City}}</strong>
+                            </div>
+                        </div>
+                    </p-tabpanel>
+                    <p-tabpanel [value]="2">
+                            <p-galleria 
+                              [value]="images" 
+                              [showItemNavigators]="true" 
+                              [showIndicators]="false"
+                              [numVisible]="3">
+                                <ng-template #item let-item>
+                                    <img [src]="item.itemImageSrc" class="w-100 d-block" />
+                                </ng-template>
+                                <ng-template #thumbnail let-item>
+                                    <img [src]="item.thumbnailImageSrc" class="w-100 d-block p-2"/>
+                                </ng-template>
+                        </p-galleria>                    
+                    </p-tabpanel>
+                    <p-tabpanel [value]="3">
+                        <h1>Contact Detail</h1>
+                        This should be restricted area and only registered user should be able to see seller contact details          
+                    </p-tabpanel>
+                </div>  
+            </p-tabpanels>
+        </p-tabs>
+    </div>
+</div>
