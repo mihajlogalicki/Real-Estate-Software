@@ -1,8 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using WebAPI.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var myAllowedOrigin = "_myAllowedResourceShareOrigin";
 
 // Add services to the container.
+
+builder.Services.AddDbContext<DataContext>(options => 
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SQLExpressConnection"))
+);
 
 builder.Services.AddControllers();
 builder.Services.AddCors(options =>

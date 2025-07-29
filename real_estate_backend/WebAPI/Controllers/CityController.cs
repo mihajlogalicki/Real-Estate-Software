@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Data;
 
 namespace WebAPI.Controllers
 {
@@ -7,10 +8,18 @@ namespace WebAPI.Controllers
     [ApiController]
     public class CityController : ControllerBase
     {
-        [HttpGet]
-        public IEnumerable<string> City()
+        private readonly DataContext _dataContext;
+
+        public CityController(DataContext dataContext)
         {
-            return new string[] { "Belgrade", "Paris", "Madrid" };
+            _dataContext = dataContext;
+        }
+
+        [HttpGet]
+        public IActionResult GetCities()
+        {
+            var cities = _dataContext.Cities.ToList();
+            return Ok(cities);
         }
 
         [HttpGet("{id}")]
