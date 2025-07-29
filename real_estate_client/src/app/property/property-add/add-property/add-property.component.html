@@ -43,7 +43,15 @@
                             <div>
                                 <label>City</label>
                             </div>                     
-                            <input type="text" class="form-control" formControlName="City" [(ngModel)]="propertyView.City">
+                            <p-dropdown
+                                [options]="cityOptions" 
+                                [(ngModel)]="propertyView.City"
+                                formControlName="City"
+                                placeholder="Select a City" />
+                                
+                            <div class="error-block" *ngIf="City.hasError('required') && City.touched">
+                                <p>City  is required</p>
+                            </div>
                         </div>
         
                         <div class="form-group mt-3">

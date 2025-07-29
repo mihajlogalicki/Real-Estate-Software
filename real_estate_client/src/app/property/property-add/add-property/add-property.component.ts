@@ -5,6 +5,7 @@ import { IPropertyBase } from '../../../model/IPropertyBase';
 import { MessageService } from 'primeng/api';
 import { Property } from '../../../model/Property';
 import { HousingService } from '../../../services/housing.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-add-property',
@@ -26,6 +27,7 @@ export class AddPropertyComponent {
   public addPropertyForm : FormGroup;
   public isNextButtonClicked : boolean;
   public property = new Property();
+  public cityOptions : Array<string>;
 
   public propertyView : IPropertyBase = 
   {
@@ -47,6 +49,8 @@ export class AddPropertyComponent {
 
   ngOnInit(){
     this.initAddPropertyForm();
+    this.getCities();
+
   }
 
   initAddPropertyForm(){
@@ -85,6 +89,15 @@ export class AddPropertyComponent {
       }),
 
       Photos: this.formBuilder.group({}),
+    })
+  }
+
+  getCities(){
+    this.housingService
+        .getAllCities()
+        .pipe(take(1))
+        .subscribe(data => {
+          this.cityOptions = data;
     })
   }
 
