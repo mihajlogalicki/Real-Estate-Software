@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Data;
-using WebAPI.Data.Repository;
+using WebAPI.Helpers;
+using WebAPI.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,8 +21,10 @@ builder.Services.AddCors(options =>
                   .WithMethods("GET", "POST", "PUT", "DELETE");
         });
 });
-// Add single instance of repository for each request -> scope lifetime
-builder.Services.AddScoped<ICityRepository, CityRepository>();
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
+// Add single instance of UoF for each request -> scope lifetime
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 
 var app = builder.Build();
 

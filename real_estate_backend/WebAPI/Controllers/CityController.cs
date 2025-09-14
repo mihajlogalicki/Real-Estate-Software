@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WebAPI.Data.Repository;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using WebAPI.DTOs;
+using WebAPI.Helpers;
+using WebAPI.Interfaces;
 using WebAPI.Models;
 
 namespace WebAPI.Controllers
@@ -8,33 +11,41 @@ namespace WebAPI.Controllers
     [ApiController]
     public class CityController : ControllerBase
     {
-        private readonly ICityRepository _cityRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _autoMapper;
 
-        public CityController(ICityRepository cityRepository)
+        public CityController(IUnitOfWork unitOfWork, IMapper autoMapper)
         {
-            _cityRepository = cityRepository;
+            _unitOfWork = unitOfWork;
+            _autoMapper = autoMapper;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetCities()
         {
-            var cities = await _cityRepository.GetCitiesAsync();
-            return Ok(cities);
+            var cities = await _unitOfWork.CityRepository.GetCitiesAsync();
+            var citiesDto = _autoMapper.Map<IEnumerable<CityDto>>(cities);
+
+            return Ok(citiesDto);
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddCity(City city)
+        public async Task<IActionResult> AddCity(CityDto cityDto)
         {
-            await _cityRepository.AddCityAsync(city);
-            await _cityRepository.SaveCityChangesAsync();
+            var city = _autoMapper.Map<City>(cityDto);
+            city.LastUpdateBy = 1;
+            city.LastUpdateOn = DateTime.Now;
+
+            await _unitOfWork.CityRepository.AddCityAsync(city);
+            await _unitOfWork.SaveCityAsync();
             return StatusCode(201);
         }
 
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteCity(int id)
         {
-            _cityRepository.DeleteCity(id);
-            await _cityRepository.SaveCityChangesAsync();
+            _unitOfWork.CityRepository.DeleteCity(id);
+            await _unitOfWork.SaveCityAsync();
             return StatusCode(201);
         }
     }

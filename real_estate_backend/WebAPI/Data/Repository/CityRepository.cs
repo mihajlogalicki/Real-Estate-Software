@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WebAPI.Interfaces;
 using WebAPI.Models;
 
 namespace WebAPI.Data.Repository
@@ -30,11 +31,6 @@ namespace WebAPI.Data.Repository
         public async Task<IEnumerable<City>> GetCitiesAsync()
         {
             return await _dataContext.Cities.ToListAsync();
-        }
-
-        public async Task<bool> SaveCityChangesAsync()
-        {    
-           return await _dataContext.SaveChangesAsync() > 0;
         }
     }
 }
