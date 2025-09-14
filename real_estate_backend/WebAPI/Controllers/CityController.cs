@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using WebAPI.Data;
+﻿using Microsoft.AspNetCore.Mvc;
+using WebAPI.Data.Repository;
+using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
@@ -8,24 +8,34 @@ namespace WebAPI.Controllers
     [ApiController]
     public class CityController : ControllerBase
     {
-        private readonly DataContext _dataContext;
+        private readonly ICityRepository _cityRepository;
 
-        public CityController(DataContext dataContext)
+        public CityController(ICityRepository cityRepository)
         {
-            _dataContext = dataContext;
+            _cityRepository = cityRepository;
         }
 
         [HttpGet]
-        public IActionResult GetCities()
+        public async Task<IActionResult> GetCities()
         {
-            var cities = _dataContext.Cities.ToList();
+            var cities = await _cityRepository.GetCitiesAsync();
             return Ok(cities);
         }
 
-        [HttpGet("{id}")]
-        public string City(int id)
+        [HttpPost("add")]
+        public async Task<IActionResult> AddCity(City city)
         {
-            return "Belgrade";
+            await _cityRepository.AddCityAsync(city);
+            await _cityRepository.SaveCityChangesAsync();
+            return StatusCode(201);
+        }
+
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteCity(int id)
+        {
+            _cityRepository.DeleteCity(id);
+            await _cityRepository.SaveCityChangesAsync();
+            return StatusCode(201);
         }
     }
 }

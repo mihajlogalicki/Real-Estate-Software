@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Data;
+using WebAPI.Data.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,9 +9,7 @@ var myAllowedOrigin = "_myAllowedResourceShareOrigin";
 // Add services to the container.
 
 builder.Services.AddDbContext<DataContext>(options => 
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SQLExpressConnection"))
-);
-
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SQLExpressConnection")));
 builder.Services.AddControllers();
 builder.Services.AddCors(options =>
 {
@@ -18,9 +17,11 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy.WithOrigins("http://localhost:4200")
-                  .WithMethods("GET", "POST", "PUT");
+                  .WithMethods("GET", "POST", "PUT", "DELETE");
         });
 });
+// Add single instance of repository for each request -> scope lifetime
+builder.Services.AddScoped<ICityRepository, CityRepository>();
 
 var app = builder.Build();
 
