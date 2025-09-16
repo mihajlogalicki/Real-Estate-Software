@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.IIS;
 using WebAPI.DTOs;
 using WebAPI.Interfaces;
 using WebAPI.Models;
@@ -52,6 +53,12 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> UpdateCity(int id, CityDto cityDto)
         {
             var cityFromDb = await _unitOfWork.CityRepository.FindCityAsync(id);
+
+            if(cityFromDb == null || id != cityDto.Id)
+            {
+                return BadRequest("Update not allowed!");
+            }
+
             cityFromDb.LastUpdateBy = 1;
             cityFromDb.LastUpdateOn = DateTime.Now;
 
