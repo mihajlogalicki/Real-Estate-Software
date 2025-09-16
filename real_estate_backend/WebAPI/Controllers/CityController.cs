@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.DTOs;
-using WebAPI.Helpers;
 using WebAPI.Interfaces;
 using WebAPI.Models;
 
@@ -48,5 +47,18 @@ namespace WebAPI.Controllers
             await _unitOfWork.SaveCityAsync();
             return StatusCode(201);
         }
+
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> UpdateCity(int id, CityDto cityDto)
+        {
+            var cityFromDb = await _unitOfWork.CityRepository.FindCityAsync(id);
+            cityFromDb.LastUpdateBy = 1;
+            cityFromDb.LastUpdateOn = DateTime.Now;
+
+            _autoMapper.Map(cityDto, cityFromDb);
+            await _unitOfWork.SaveCityAsync();
+            return StatusCode(201);
+        }
+
     }
 }

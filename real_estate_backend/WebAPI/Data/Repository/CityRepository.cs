@@ -32,5 +32,10 @@ namespace WebAPI.Data.Repository
         {
             return await _dataContext.Cities.ToListAsync();
         }
+
+        public async Task<City> FindCityAsync(int id)
+        {
+            return await _dataContext.Cities.FindAsync(id);
+        }
     }
 }
