@@ -42,6 +42,10 @@ namespace WebAPI.Middlewares
                     statusCode = HttpStatusCode.BadRequest;
                     message = "Invalid data, server error occured.";
                 }
+                else
+                {
+                    message = ex.Message;
+                }
 
                 if (_env.IsDevelopment())
                 {

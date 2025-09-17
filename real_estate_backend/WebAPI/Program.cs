@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using WebAPI.Data;
 using WebAPI.Helpers;
 using WebAPI.Interfaces;
@@ -7,6 +10,8 @@ using WebAPI.Middlewares;
 var builder = WebApplication.CreateBuilder(args);
 
 var myAllowedOrigin = "_myAllowedResourceShareOrigin";
+var angularLocalUrl = builder.Configuration.GetSection("AppSettings:ClientURL").Value;
+var secretKey = builder.Configuration.GetSection("AppSettings:secretKey").Value;
 
 // Add services to the container.
 
@@ -18,14 +23,26 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: myAllowedOrigin,
         policy =>
         {
-            policy.WithOrigins("http://localhost:4200")
+            policy.WithOrigins(angularLocalUrl)
                   .WithMethods("GET", "POST", "PUT", "DELETE");
         });
 });
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
-// Add single instance of UoF for each request -> scope lifetime
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+// JWT Authentication service
+var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(opt =>
+                {
+                    opt.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        IssuerSigningKey = key
+                    };
+                });
 
 var app = builder.Build();
 
@@ -33,6 +50,8 @@ var app = builder.Build();
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseCors(myAllowedOrigin);
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
