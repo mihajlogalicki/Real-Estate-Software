@@ -37,7 +37,7 @@ namespace WebAPI.Controllers
             city.LastUpdateOn = DateTime.Now;
 
             await _unitOfWork.CityRepository.AddCityAsync(city);
-            await _unitOfWork.SaveCityAsync();
+            await _unitOfWork.SaveAsync();
             return StatusCode(201);
         }
 
@@ -45,7 +45,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> DeleteCity(int id)
         {
             _unitOfWork.CityRepository.DeleteCity(id);
-            await _unitOfWork.SaveCityAsync();
+            await _unitOfWork.SaveAsync();
             return StatusCode(201);
         }
 
@@ -63,7 +63,7 @@ namespace WebAPI.Controllers
             cityFromDb.LastUpdateOn = DateTime.Now;
 
             _autoMapper.Map(cityDto, cityFromDb);
-            await _unitOfWork.SaveCityAsync();
+            await _unitOfWork.SaveAsync();
             return StatusCode(201);
         }
 
