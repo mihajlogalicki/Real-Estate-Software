@@ -31,6 +31,7 @@ obj/
 # Local configuration
 appsettings.Development.json
 launchSettings.json
+appsettings.json
 
 
 # Miscellaneous
