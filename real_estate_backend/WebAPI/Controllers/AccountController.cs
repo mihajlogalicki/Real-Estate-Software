@@ -37,6 +37,20 @@ namespace WebAPI.Controllers
             return Ok(loginResponse);
         }
 
+        [HttpPost("sign-up")]
+        public async Task<IActionResult> SignUpAsync(LoginRequestDto loginRequestDto)
+        {
+            bool isUserAlreadyExists = await _unitOfWork.UserRepository.UserAlreadyExistsAsync(loginRequestDto.Username);
+            if (isUserAlreadyExists)
+            {
+                return BadRequest("User already exists");
+            }
+
+            _unitOfWork.UserRepository.Register(loginRequestDto.Username, loginRequestDto.Password);
+            await _unitOfWork.SaveAsync();
+            return StatusCode(201);
+        }
+
         private string GenerateJWT(User user)
         {
             var secrectKey = _config.GetSection("AppSettings:secretKey").Value;
