@@ -19,7 +19,7 @@ namespace WebAPI.Controllers
             _autoMapper = autoMapper;
         }
 
-        [HttpGet]
+        [HttpGet("cities")]
         [AllowAnonymous]
         public async Task<IActionResult> GetCities()
         {
