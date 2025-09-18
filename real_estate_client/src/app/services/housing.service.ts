@@ -3,16 +3,18 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { eRealEstateType } from '../property/property-list/property-list/eRealEstateType';
 import { Property } from '../model/Property';
+import { environment } from '../Environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HousingService {
 
+  private baseUrl : string = environment.baseUrl;
   constructor(private httpClient: HttpClient) { }
 
  getAllCities() : Observable<string[]> {
-  return this.httpClient.get<string[]>('http://localhost:5000/api/city');
+  return this.httpClient.get<string[]>(this.baseUrl +'/city/cities');
  }
 
   getProperty(id: number) : Observable<Property> {
