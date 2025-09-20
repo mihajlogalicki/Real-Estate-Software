@@ -9,14 +9,14 @@ using WebAPI.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var myAllowedOrigin = "_myAllowedResourceShareOrigin";
+// Secrets
+var myAllowedOrigin = builder.Configuration.GetSection("AppSettings:ResourceAccessKey").Value;
 var angularLocalUrl = builder.Configuration.GetSection("AppSettings:ClientURL").Value;
-var secretKey = builder.Configuration.GetSection("AppSettings:secretKey").Value;
+var secretKey = builder.Configuration.GetSection("AppSettings:SecretKey").Value;
 
-// Add services to the container.
-
+// Add services to the DI container.
 builder.Services.AddDbContext<DataContext>(options => 
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SQLExpressConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("LocalDatabase")));
 builder.Services.AddControllers();
 builder.Services.AddCors(options =>
 {
