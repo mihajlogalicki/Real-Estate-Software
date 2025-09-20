@@ -3,6 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { UserService } from '../../../services/user-service';
 import { User } from '../../../model/user';
 import { MessageService } from 'primeng/api';
+import { AuthService } from '../../../services/auth.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-user-register',
@@ -15,7 +17,7 @@ export class UserRegisterComponent implements OnInit {
   public registrationForm : FormGroup;
   public isRegisterFormSubmitted: boolean;
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private messageService: MessageService){}
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private messageService: MessageService){}
 
   ngOnInit() {
     this.initRegistrationForm();
@@ -46,13 +48,21 @@ export class UserRegisterComponent implements OnInit {
           mobile: this.mobile.value
         };
 
-        this.userService.addUser(userDto);
-        this.messageService.add({ severity: 'success', summary: 'Registration Successful!', life: 4000});
-        this.registrationForm.reset();
-        this.isRegisterFormSubmitted = false;
+        this.authService.SaveUser(userDto)
+            .pipe(take(1))
+            .subscribe({
+              next: (response: User) => {
+                  this.messageService.add({ severity: 'success', summary: 'Registration Successful!', life: 3000});
+                  this.registrationForm.reset();
+                  this.isRegisterFormSubmitted = false;
+              }, 
+              error: err => {
+                  this.messageService.add({severity: 'error', summary: err.error, life: 3000});
+              }
+        });
     } 
     else {
-      this.messageService.add({severity: 'error', summary: 'Registration Failed!', life: 4000});
+      this.messageService.add({severity: 'error', summary: 'Invalid register form!', life: 3000});
     }
   }
 

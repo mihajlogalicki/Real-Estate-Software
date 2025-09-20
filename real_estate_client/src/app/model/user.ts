@@ -4,3 +4,9 @@ export interface User {
     password: string;
     mobile: string;
 }
+
+export interface UserLoginDto {
+    username: string;
+    password: string;
+    token: string;
+}

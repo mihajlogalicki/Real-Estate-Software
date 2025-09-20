@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { Menu } from 'primeng/menu';
 
 @Component({
@@ -13,12 +13,14 @@ export class NavBarComponent {
    public loggedUser : string;
    public items : MenuItem[];
 
+   constructor(private messageService: MessageService) {}
+
    ngOnInit(){
     this.initMenuActions();
    }
 
    isUserLoggedIn() {
-      this.loggedUser = localStorage.getItem('token');
+      this.loggedUser = localStorage.getItem('username');
       return this.loggedUser;
    }
    
@@ -37,6 +39,8 @@ export class NavBarComponent {
           icon: 'fa-solid fa-right-from-bracket', 
           command: () => {
             localStorage.removeItem('token');
+            localStorage.removeItem('username');
+            this.messageService.add({ severity: 'success', summary: 'Logout Successful!', life: 4000});
           }
         }
       ];

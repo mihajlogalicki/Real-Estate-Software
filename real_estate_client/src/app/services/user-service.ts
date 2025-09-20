@@ -8,7 +8,8 @@ export class UserService {
 
   constructor() { }
 
-  addUser(user: User) {
+  // Simulate saving user in Database
+  addUserLocalStorage(user: User) {
     let users = [];
     if(localStorage.getItem('Users')){
       users = JSON.parse(localStorage.getItem('Users'));
