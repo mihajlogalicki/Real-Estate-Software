@@ -25,7 +25,7 @@ namespace WebAPI.Controllers
             var user = await _unitOfWork.UserRepository.AuthenticateAsync(loginRequestDto.Username, loginRequestDto.Password);
             if(user == null)
             {
-                return Unauthorized();
+                return Unauthorized("Invalid User ID or Password");
             }
 
             var loginResponse = new LoginResponseDto
@@ -38,15 +38,21 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("sign-up")]
-        public async Task<IActionResult> SignUpAsync(LoginRequestDto loginRequestDto)
+        public async Task<IActionResult> SignUpAsync(RegisterRequestDto registerRequestDto)
         {
-            bool isUserAlreadyExists = await _unitOfWork.UserRepository.UserAlreadyExistsAsync(loginRequestDto.Username);
+            bool isUserAlreadyExists = await _unitOfWork.UserRepository.UserAlreadyExistsAsync(registerRequestDto.Username);
             if (isUserAlreadyExists)
             {
                 return BadRequest("User already exists");
             }
 
-            _unitOfWork.UserRepository.Register(loginRequestDto.Username, loginRequestDto.Password);
+            _unitOfWork.UserRepository.Register(
+                registerRequestDto.Username,
+                registerRequestDto.Password,
+                registerRequestDto.Email,
+                registerRequestDto.Mobile
+               );
+
             await _unitOfWork.SaveAsync();
             return StatusCode(201);
         }

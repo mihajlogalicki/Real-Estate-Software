@@ -24,7 +24,8 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy.WithOrigins(angularLocalUrl)
-                  .WithMethods("GET", "POST", "PUT", "DELETE");
+                  .WithMethods("GET", "POST", "PUT", "DELETE")
+                  .AllowAnyHeader();
         });
 });
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);

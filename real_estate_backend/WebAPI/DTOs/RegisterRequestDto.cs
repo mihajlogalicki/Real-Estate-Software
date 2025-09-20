@@ -1,16 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebAPI.Models
+namespace WebAPI.DTOs
 {
-    public class User
+    public class RegisterRequestDto
     {
-        public int Id { get; set; }
         [Required]
         public string Username { get; set; }
         [Required]
-        public byte[] Password { get; set; }
-        public byte[] PasswordKey { get; set; }
+        public string Password { get; set; }
+        [Required]
         public string Email { get; set; }
+        [Required]
         public string Mobile { get; set; }
     }
 }
