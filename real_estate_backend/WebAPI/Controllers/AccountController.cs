@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using WebAPI.DTOs;
+using WebAPI.Errors;
 using WebAPI.Interfaces;
 using WebAPI.Models;
 
@@ -23,9 +24,15 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> SignInAsync(LoginRequestDto loginRequestDto)
         {
             var user = await _unitOfWork.UserRepository.AuthenticateAsync(loginRequestDto.Username, loginRequestDto.Password);
+
+            APIErrors apiError = new APIErrors();
+
             if(user == null)
             {
-                return Unauthorized("Invalid User ID or Password");
+                apiError.ErrorCode = Unauthorized().StatusCode;
+                apiError.ErrorMessage = "Invalid User Id or Password";
+                apiError.ErrorsTraces = "Error occured when provided User ID or Password does not exists";
+                return Unauthorized(apiError);
             }
 
             var loginResponse = new LoginResponseDto
@@ -41,10 +48,6 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> SignUpAsync(RegisterRequestDto registerRequestDto)
         {
             bool isUserAlreadyExists = await _unitOfWork.UserRepository.UserAlreadyExistsAsync(registerRequestDto.Username);
-            if (isUserAlreadyExists)
-            {
-                return BadRequest("User already exists");
-            }
 
             _unitOfWork.UserRepository.Register(
                 registerRequestDto.Username,

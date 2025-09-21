@@ -7,6 +7,9 @@ namespace WebAPI.Errors
         public int ErrorCode { get; set; }
         public string ErrorMessage { get; set; }
         public string ErrorsTraces { get; set; }
+
+        public APIErrors() {}
+
         public APIErrors(int errorCode, string errorMessage, string errorsTraces = null)
         {
             ErrorCode = errorCode;
