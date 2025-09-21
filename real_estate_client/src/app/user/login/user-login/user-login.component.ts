@@ -52,18 +52,15 @@ export class UserLoginComponent {
 
     this.authService.AuthenticateUser(user)
         .pipe(take(1))
-        .subscribe({
-        next: (response: UserLoginDto) => {
-          const user = response;
-          localStorage.setItem('token', user.token);
-          localStorage.setItem('username', user.username);
-          this.messageService.add({ severity: 'success', summary: 'Login Successful!', life: 2000});
-          this.route.navigate(['']);  
-       }, error: err => {
-          console.log(err.error);
-          this.messageService.add({ severity: 'error', summary: err.error, life: 2000});
-       }
-  })
+        .subscribe((response: UserLoginDto) => {
+            const user = response;
+            if(user) {
+              localStorage.setItem('token', user.token);
+              localStorage.setItem('username', user.username);
+              this.messageService.add({ severity: 'success', summary: 'Login Successful!', life: 2000});
+              this.route.navigate(['']);  
+          }
+      })
 }
 
   initLoginForm(){

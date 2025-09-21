@@ -25,11 +25,11 @@ export class UserRegisterComponent implements OnInit {
 
   initRegistrationForm(){
     this.registrationForm = this.formBuilder.group({
-      userName: [null, [Validators.required, Validators.minLength(6)]],
+      userName: [null, [Validators.required, Validators.minLength(5)]],
       email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required, Validators.minLength(8)]],
+      password: [null, [Validators.required, Validators.minLength(7)]],
       confirmPassword: [null, Validators.required],
-      mobile: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]]
+      mobile: [null, [Validators.required, Validators.minLength(10)]]
     }, {validators: this.passwordMatchingValidator})
   }
 
@@ -50,21 +50,17 @@ export class UserRegisterComponent implements OnInit {
 
         this.authService.SaveUser(userDto)
             .pipe(take(1))
-            .subscribe({
-              next: (response: User) => {
-                  this.messageService.add({ severity: 'success', summary: 'Registration Successful!', life: 3000});
-                  this.registrationForm.reset();
-                  this.isRegisterFormSubmitted = false;
-              }, 
-              error: err => {
-                  this.messageService.add({severity: 'error', summary: err.error, life: 3000});
-              }
-        });
-    } 
+            .subscribe((response: User) => {
+              this.messageService.add({ severity: 'success', summary: 'Registration Successful!', life: 3000});
+              this.registrationForm.reset();
+              this.isRegisterFormSubmitted = false;
+          })
+    }
     else {
       this.messageService.add({severity: 'error', summary: 'Invalid register form!', life: 3000});
     }
   }
+  
 
   // getters for form controls
   get username() {

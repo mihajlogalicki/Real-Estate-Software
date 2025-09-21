@@ -16,7 +16,7 @@
                     Username is mandatory field
                 </p>
                 <p *ngIf="username.hasError('minlength')">
-                    Username must be at least 6 characters long 
+                    Username must be at least 5 characters long 
                 </p>
               </div>
           </div>
@@ -38,13 +38,14 @@
           <div class="form-group col-12">
             <label for="passwrod" class="form-label">Password</label>
             <input type="text" class="form-control" formControlName="password">
+            <small>Password requires: digit, letter, special symbol characters ($, #)</small>
 
             <div class="error-block" *ngIf="!password.valid && (password.touched || isRegisterFormSubmitted)">
                 <p *ngIf="password.hasError('required')">
                     Password is mandatory field
                 </p>
                 <p *ngIf="password.hasError('minlength')">
-                    Password must be at least 8 characters long 
+                    Password must be at least 7 characters long 
                 </p>
             </div>
           </div>

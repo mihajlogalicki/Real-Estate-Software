@@ -15,10 +15,11 @@ import { UserRegisterComponent } from './user/register/user-register/user-regist
 
 // providers
 import { HousingService } from './services/housing.service';
-import { provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { UserService } from './services/user-service';
 import { MessageService } from 'primeng/api';
 import { PropertyDetailResolverService } from './property/property-detail/property-detail-resolver.service';
+import { HttpInterceptorService } from './services/httperror-interceptor-service';
 
 // PrimeNG config
 import { providePrimeNG } from 'primeng/config';
@@ -67,9 +68,15 @@ import { SortPipe } from './Pipes/sort.pipe';
     DatePicker,
     GalleriaModule,
     DropdownModule,
-    InputTextModule
+    InputTextModule,
+    HttpClientModule
 ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true
+    },
     provideHttpClient(),
     HousingService,
     UserService,
