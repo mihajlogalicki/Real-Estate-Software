@@ -19,13 +19,13 @@
                 <form (ngSubmit)='Save()' [formGroup]="addPropertyForm">
                     <p-tabpanel [value]="0" formGroupName="BasicInfo">
                         <div class="form-group">                      
-                            <p-radiobutton value="1" formControlName="RealEstateType"/>
+                            <p-radiobutton value="1" formControlName="SellRentType"/>
                             <label for="sell" class="me-2 ">Sell</label>
 
-                            <p-radiobutton value="2" formControlName="RealEstateType"/>
+                            <p-radiobutton value="2" formControlName="SellRentType"/>
                             <label  for="rent">Rent</label>
 
-                            <h5 class="error-block ms-1 d-inline" *ngIf="RealEstateType.hasError('required')">*</h5>
+                            <h5 class="error-block ms-1 d-inline" *ngIf="SellRentType.hasError('required')">*</h5>
                         </div>                
 
                         <div class="form-group mt-3">
@@ -84,13 +84,13 @@
                     </p-tabpanel>
                     <p-tabpanel [value]="1" formGroupName="PricingInfo">
                         <div class="form-group">
-                            <label *ngIf="RealEstateType.value == 1">Price (IN USD)</label>
-                            <label *ngIf="RealEstateType.value == 2">Rent (IN USD)</label>
+                            <label *ngIf="SellRentType.value == 1">Price (IN USD)</label>
+                            <label *ngIf="SellRentType.value == 2">Rent (IN USD)</label>
 
                             <input type="number" class="form-control" formControlName="Price" [(ngModel)]="propertyView.Price">
 
                             <div class="error-block" *ngIf="Price.hasError('required') && Price.touched">
-                                <p>{{RealEstateType.value == 1 ? ' Price' : 'Rent'}} amount is required</p>
+                                <p>{{SellRentType.value == 1 ? ' Price' : 'Rent'}} amount is required</p>
                             </div>
                         </div>
                         <div class="form-group">
@@ -103,7 +103,7 @@
                         </div>
                         <div class="form-group">
                             <label>Total Area</label>
-                            <input type="text" formControlName="TotalArea" [(ngModel)]="propertyView.TotalArea" class="form-control">
+                            <input type="text" formControlName="BuiltArea" [(ngModel)]="propertyView.BuiltArea" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Carpet Area (In m<sup>2</sup>)</label>

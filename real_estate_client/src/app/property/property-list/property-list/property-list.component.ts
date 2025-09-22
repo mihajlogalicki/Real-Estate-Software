@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { take } from 'rxjs';
 import { HousingService } from '../../../services/housing.service';
 import { ActivatedRoute } from '@angular/router';
-import { eRealEstateType } from './eRealEstateType';
+import { eSellRentType } from './eRealEstateType';
 import { IPropertyBase } from '../../../model/IPropertyBase';
 
 @Component({
@@ -13,7 +13,7 @@ import { IPropertyBase } from '../../../model/IPropertyBase';
 })
 export class PropertyListComponent {
 
-  public realEstateType: eRealEstateType = eRealEstateType.Sell;
+  public SellRentType: eSellRentType = eSellRentType.Sell;
   public properties: IPropertyBase[];
   public searchText : string = '';
   public sortByDirection : string = 'asc';
@@ -30,17 +30,17 @@ export class PropertyListComponent {
 
   getProperties(){ 
     if(!!this.activatedRoute.snapshot.url[0]) {
-       this.realEstateType = eRealEstateType.Rent;
+       this.SellRentType = eSellRentType.Rent;
     }
 
-    this.housingService.getAllProperties(this.realEstateType)
+    this.housingService.getAllProperties(this.SellRentType)
         .pipe(take(1))
         .subscribe({
          next: data => {
             this.properties = data;
             const newProperty = JSON.parse(localStorage.getItem('newProperty'));
 
-            if(!!newProperty && newProperty.RealEstateType == this.realEstateType) {
+            if(!!newProperty && newProperty.SellRentType == this.SellRentType) {
               this.properties = [newProperty, ...this.properties];
             }
            

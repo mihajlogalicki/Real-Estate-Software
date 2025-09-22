@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
-import { eRealEstateType } from '../property/property-list/property-list/eRealEstateType';
+import { eSellRentType } from '../property/property-list/property-list/eRealEstateType';
 import { Property } from '../model/Property';
 import { environment } from '../Environments/environment';
 
@@ -30,14 +30,14 @@ export class HousingService {
     )
   }
 
-  getAllProperties(realEstateType?: eRealEstateType) : Observable<Property[]> { 
+  getAllProperties(sellRentType?: eSellRentType) : Observable<Property[]> { 
     return this.httpClient.get('data/properties.json').pipe(
       map(data => {
         const properties: Property[] = [];
 
         for(const item in data){
-          if(!!realEstateType){
-            if(data.hasOwnProperty(item) && data[item].RealEstateType === realEstateType){
+          if(!!sellRentType){
+            if(data.hasOwnProperty(item) && data[item].SellRentType === sellRentType){
               properties.push(data[item]);
             }
           } else {
@@ -47,8 +47,8 @@ export class HousingService {
 
         const localProperties = JSON.parse(localStorage.getItem('newProperty'));
         for(const property in localProperties){
-          if(!!realEstateType){
-            if(localProperties.hasOwnProperty(property) && localProperties[property].RealEstateType === realEstateType){
+          if(!!sellRentType){
+            if(localProperties.hasOwnProperty(property) && localProperties[property].SellRentType === sellRentType){
               properties.push(localProperties[property]);
             }
           } else {

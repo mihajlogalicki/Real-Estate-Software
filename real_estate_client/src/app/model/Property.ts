@@ -3,8 +3,8 @@ import { IPropertyBase } from "./IPropertyBase";
 export class Property implements IPropertyBase {
     PropertyType: number;
     FurnishingType: string;
-    RealEstateType: number;
-    TotalArea: number;
+    SellRentType: number;
+    BuiltArea: number;
     Id: number;
     Name: string;
     Price: number;

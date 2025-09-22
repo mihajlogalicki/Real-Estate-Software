@@ -36,8 +36,8 @@ export class AddPropertyComponent {
       Price: null,
       PropertyType: null,
       FurnishingType: null,
-      RealEstateType: null,
-      TotalArea: null,
+      SellRentType: null,
+      BuiltArea: null,
       City: null,
       RTM: null
   };
@@ -56,7 +56,7 @@ export class AddPropertyComponent {
   initAddPropertyForm(){
     this.addPropertyForm = this.formBuilder.group({
       BasicInfo: this.formBuilder.group({
-        RealEstateType: [1, Validators.required],
+        SellRentType: [1, Validators.required],
         PropertyType: [null, Validators.required],
         furnishingType: [null, Validators.required],
         Name: [null, Validators.required],
@@ -65,7 +65,7 @@ export class AddPropertyComponent {
 
       PricingInfo: this.formBuilder.group({
         Price: [null, Validators.required],
-        TotalArea: [null, Validators.required],
+        BuiltArea: [null, Validators.required],
         Security:  [null],
         Maintenance: [null],
         CarpetArea: [null]
@@ -110,7 +110,7 @@ export class AddPropertyComponent {
         this.messageService.add({ severity: 'error', summary: 'Please review the form and provide all valid entries', life: 4000});
     }
 
-    if(this.property.RealEstateType == 2) {
+    if(this.property.SellRentType == 2) {
        this.router.navigate(['/rent-property']);
     } else {
       this.router.navigate(['/'])
@@ -119,14 +119,14 @@ export class AddPropertyComponent {
 
   private prepareData() {
     this.property.Id = this.housingService.addPropertyId();
-    this.property.RealEstateType = this.RealEstateType.value;
+    this.property.SellRentType = this.SellRentType.value;
     this.property.PropertyType = this.PropertyType.value;
     this.property.Name = this.Name.value;
     this.property.City = this.City.value;
     this.property.FurnishingType = this.FurnishingType.value;
 
     this.property.Price = this.Price.value;
-    this.property.TotalArea = this.TotalArea.value;
+    this.property.BuiltArea = this.BuiltArea.value;
     this.property.Security = this.Security.value;
     this.property.Maintenance = this.Maintenance.value;
     this.property.CarpetArea = this.CarpetArea.value;
@@ -151,8 +151,8 @@ export class AddPropertyComponent {
   get BasicInfoFormGroup(){
     return this.addPropertyForm.controls['BasicInfo'] as FormGroup;
   }
-  get RealEstateType(){
-    return this.BasicInfoFormGroup.controls['RealEstateType'] as FormControl;
+  get SellRentType(){
+    return this.BasicInfoFormGroup.controls['SellRentType'] as FormControl;
   }
   get PropertyType(){
     return this.BasicInfoFormGroup.controls['PropertyType'] as FormControl;
@@ -174,8 +174,8 @@ export class AddPropertyComponent {
   get Price(){
     return this.PricingInfoFormGroup.controls['Price'] as FormControl;
   }
-  get TotalArea(){
-    return this.PricingInfoFormGroup.controls['TotalArea'] as FormControl;
+  get BuiltArea(){
+    return this.PricingInfoFormGroup.controls['BuiltArea'] as FormControl;
   }
   get Security(){
     return this.PricingInfoFormGroup.controls['Security'] as FormControl;
