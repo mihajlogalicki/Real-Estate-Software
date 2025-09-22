@@ -1,8 +1,8 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { MessageService } from "primeng/api";
-import { catchError, Observable, throwError } from "rxjs";
-
+import { catchError, Observable, retry, throwError, timer } from "rxjs";
+import { ErrorCode } from "../Enums/enums";
 
 @Injectable({ providedIn: 'root'})
 export class HttpInterceptorService implements HttpInterceptor {
@@ -12,6 +12,7 @@ export class HttpInterceptorService implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         console.log("HTTP request started");
         return next.handle(request).pipe(
+            retry({count: 5, delay: this.retryRequestWhen}),
             catchError((error: HttpErrorResponse) => {
                 const errorMessage = this.setError(error);
                 this.messageService.add({severity: 'error', summary: errorMessage, life: 3000});
@@ -33,9 +34,18 @@ export class HttpInterceptorService implements HttpInterceptor {
                 errorMessage += `${value} \n`;
             }
         } else {
-            errorMessage = errorResponse.error.errorMessage;
+            errorMessage = errorResponse.error.errorMessage ?? "Unknown server error occured.";
         }
 
         return errorMessage;
+    }
+
+    /** @param error Retry new HTTP request when SERVER or DATABASE is temporarily down */
+    retryRequestWhen(error: HttpErrorResponse){
+        if(error.status === ErrorCode.ServerDown) {
+            return timer(500);
+        }
+
+        return throwError(() => error);
     }
 }
