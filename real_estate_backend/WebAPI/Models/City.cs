@@ -2,13 +2,10 @@
 
 namespace WebAPI.Models
 {
-    public class City
+    public class City : BaseEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         [Required]
         public string Country { get; set; }
-        public int LastUpdateBy { get; set; }
-        public DateTime LastUpdateOn { get; set; }      
     }
 }

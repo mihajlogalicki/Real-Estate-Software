@@ -33,8 +33,8 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> AddCity(CityDto cityDto)
         {
             var city = _autoMapper.Map<City>(cityDto);
-            city.LastUpdateBy = 1;
-            city.LastUpdateOn = DateTime.Now;
+            city.LastUpdatedBy = 1;
+            city.LastUpdatedOn = DateTime.Now;
 
             await _unitOfWork.CityRepository.AddCityAsync(city);
             await _unitOfWork.SaveAsync();
@@ -59,8 +59,8 @@ namespace WebAPI.Controllers
                 return BadRequest("Update not allowed!");
             }
 
-            cityFromDb.LastUpdateBy = 1;
-            cityFromDb.LastUpdateOn = DateTime.Now;
+            cityFromDb.LastUpdatedBy = 1;
+            cityFromDb.LastUpdatedOn= DateTime.Now;
 
             _autoMapper.Map(cityDto, cityFromDb);
             await _unitOfWork.SaveAsync();
