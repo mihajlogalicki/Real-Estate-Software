@@ -12,8 +12,8 @@ using WebAPI.Data;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250922181059_AddedRemainingEntitiesAndRelationship")]
-    partial class AddedRemainingEntitiesAndRelationship
+    [Migration("20250924110733_RecreateMigration_CompleteDatabase")]
+    partial class RecreateMigration_CompleteDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -231,19 +231,11 @@ namespace WebAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("LastUpdatedBy")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastUpdatedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Mobile")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("Password")
                         .IsRequired()

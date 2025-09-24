@@ -45,8 +45,6 @@ namespace WebAPI.Data.Repository
                 Username = username,
                 Password = passwordHash,
                 PasswordKey = passwordKey,
-                Email = email,
-                Mobile = mobile
             };
 
             _dataContext.Users.Add(user);
