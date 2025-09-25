@@ -1,13 +1,13 @@
 <div class="card">
     <div class="card-img-wrapper">
-            <img *ngIf="property.Image; else defaultImage" class="card-img-top" src="assets/{{property.Image}}.png">
+            <img *ngIf="property.image; else defaultImage" class="card-img-top" src="assets/{{property.image}}.png">
             <ng-template #defaultImage>
                 <img class="card-img-top" src="assets/default.jpg">
             </ng-template>
             <ul *ngIf="showIcons" class="list-inline text-center member-icons animate">
                 <li class="list-inline-item">
                     <button class="btn btn-primary">
-                        <i routerLink="/property-detail/{{property.Id}}" class="fa-solid fa-pen-to-square"></i>
+                        <i routerLink="/property-detail/{{property.id}}" class="fa-solid fa-pen-to-square"></i>
                     </button>
                 </li>
                 <li class="list-inline-item">
@@ -18,21 +18,21 @@
             </ul>
         </div>
         <div class="card-body p-1">
-            <h2 class="mb-0">{{ property.PropertyType }}</h2>
+            <h2 class="mb-0">{{ property.propertyType }}</h2>
 
-            in {{ property.Name }}
-            <span *ngIf="property.Name">,</span>
-            {{ property.City }}
+            in {{ property.name }}
+            <span *ngIf="property.name">,</span>
+            {{ property.city }}
 
-            <h6 class="mt-2">{{ property.FurnishingType }}</h6>
-            <span *ngIf="property.FurnishingType != 'Unfurnished'">
+            <h6 class="mt-2">{{ property.furnishingType }}</h6>
+            <span *ngIf="property.furnishingType != 'Unfurnished'">
                 Furnished | Ready to Move
             </span>
 
             <hr class="mt-0 mb-2">
 
-            <h6 class="mb-0">Price: <span class="card-item fw-bold">{{ property.Price }} USD.</span> |
-            Total Area: <span class="card-item fw-bold">{{ property.BuiltArea }}m<sup>2</sup>
+            <h6 class="mb-0">Price: <span class="card-item fw-bold">{{ property.price }} USD.</span> |
+            Total Area: <span class="card-item fw-bold">{{ property.builtArea }}m<sup>2</sup>
             </span></h6>
         </div>
 </div>

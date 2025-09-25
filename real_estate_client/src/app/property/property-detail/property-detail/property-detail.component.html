@@ -2,20 +2,20 @@
     <div class="col-sm-4 p-0">
         <div class="card">
             <div class="card-img-wrapper">
-                <img *ngIf="property.Image" src="assets/{{property.Image}}.png" class="card-img-top" alt="">
-                <img *ngIf="!property.Image" src="assets/default.jpg" class="card-img-top" alt="">
+                <img *ngIf="property.image" src="assets/{{property.image}}.png" class="card-img-top" alt="">
+                <img *ngIf="!property.image" src="assets/default.jpg" class="card-img-top" alt="">
             </div>
             <div class="card-body">
-                <h1 class="card-title">{{property.Name}}</h1>
+                <h1 class="card-title">{{property.name}}</h1>
                 <div>
-                    <strong>{{property.PropertyType}}  ${{property.Price}}</strong>
+                    <strong>{{property.propertyType}}  ${{property.price}}</strong>
                 </div>
                 <div>
-                   <strong>in {{property.City}}</strong>
+                   <strong>in {{property.city}}</strong>
                 </div> <hr>
                 <div>
                     <strong>Built Area: </strong>
-                    {{property.BuiltArea}} m<sup>2</sup>
+                    {{property.builtArea}} m<sup>2</sup>
                 </div>
         
                 <div>
@@ -24,7 +24,7 @@
                 </div>
                 <div>
                     <strong>Furnishing Type: </strong>
-                    {{property.FurnishingType}}
+                    {{property.furnishingType}}
                 </div>
               </div>
               <div class="card-footer">
@@ -50,7 +50,7 @@
                             <div class="col-sm-6">
                                 <div class="heading">
                                     <strong>Project Name</strong>
-                                    <p>{{property.Name}}</p>
+                                    <p>{{property.name}}</p>
                                 </div>
               
                                 <div class="heading">
@@ -76,7 +76,7 @@
                             <div class="heading">
                                 <strong>{{property.Address}}</strong><br/>
                                 <strong>{{property.Address2}}</strong><br/>
-                                <strong>{{property.City}}</strong>
+                                <strong>{{property.city}}</strong>
                             </div>
                         </div>
                     </p-tabpanel>

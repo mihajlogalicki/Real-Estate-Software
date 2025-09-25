@@ -13,10 +13,7 @@ import { take } from 'rxjs';
   templateUrl: './add-property.component.html',
   styleUrl: './add-property.component.css'
 })
-/* TODO: 
-    1) Display validation errors for each control (improve using <p-message>)
-    2) Remove ngModel for previewing property, use fully reactive form approach
-*/
+
 export class AddPropertyComponent {
 
   // @ViewChild('Form') groupedFormControl : NgForm; -> Old, used for Template Driven Form
@@ -31,15 +28,15 @@ export class AddPropertyComponent {
 
   public propertyView : IPropertyBase = 
   {
-      Id: null,
-      Name: '',
-      Price: null,
-      PropertyType: null,
-      FurnishingType: null,
-      SellRentType: null,
-      BuiltArea: null,
-      City: null,
-      RTM: null
+      id: null,
+      name: '',
+      price: null,
+      propertyType: null,
+      furnishingType: null,
+      sellRentType: null,
+      builtArea: null,
+      city: null,
+      readyToMove: null
   };
 
   constructor(private router: Router, 
@@ -110,7 +107,7 @@ export class AddPropertyComponent {
         this.messageService.add({ severity: 'error', summary: 'Please review the form and provide all valid entries', life: 4000});
     }
 
-    if(this.property.SellRentType == 2) {
+    if(this.property.sellRentType == 2) {
        this.router.navigate(['/rent-property']);
     } else {
       this.router.navigate(['/'])
@@ -118,15 +115,15 @@ export class AddPropertyComponent {
   }
 
   private prepareData() {
-    this.property.Id = this.housingService.addPropertyId();
-    this.property.SellRentType = this.SellRentType.value;
-    this.property.PropertyType = this.PropertyType.value;
-    this.property.Name = this.Name.value;
-    this.property.City = this.City.value;
-    this.property.FurnishingType = this.FurnishingType.value;
+    this.property.id = this.housingService.addPropertyId();
+    this.property.sellRentType = this.SellRentType.value;
+    this.property.propertyType = this.PropertyType.value;
+    this.property.name = this.Name.value;
+    this.property.city = this.City.value;
+    this.property.furnishingType = this.FurnishingType.value;
 
-    this.property.Price = this.Price.value;
-    this.property.BuiltArea = this.BuiltArea.value;
+    this.property.price = this.Price.value;
+    this.property.builtArea = this.BuiltArea.value;
     this.property.Security = this.Security.value;
     this.property.Maintenance = this.Maintenance.value;
     this.property.CarpetArea = this.CarpetArea.value;
@@ -136,7 +133,7 @@ export class AddPropertyComponent {
     this.property.FloorNo = this.FloorNo.value;
     this.property.TotalFloor = this.TotalFloor.value;
 
-    this.property.RTM = this.RTM.value;
+    this.property.readyToMove = this.RTM.value;
     this.property.AOP = this.AOP.value;
     this.property.Possession = this.Possession.value;
     this.property.Gated = this.Gated.value;

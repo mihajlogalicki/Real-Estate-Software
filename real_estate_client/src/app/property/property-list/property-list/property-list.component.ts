@@ -33,7 +33,7 @@ export class PropertyListComponent {
        this.SellRentType = eSellRentType.Rent;
     }
 
-    this.housingService.getAllProperties(this.SellRentType)
+    this.housingService.getProperties(this.SellRentType)
         .pipe(take(1))
         .subscribe({
          next: data => {

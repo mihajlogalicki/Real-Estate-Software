@@ -13,14 +13,17 @@ export class HousingService {
   private baseUrl : string = environment.baseUrl;
   constructor(private httpClient: HttpClient) { }
 
+  // HTTP requests
  getAllCities() : Observable<string[]> {
   return this.httpClient.get<string[]>(this.baseUrl +'/city/cities');
  }
-
-  getProperty(id: number) : Observable<Property> {
-    return this.getAllProperties().pipe(
+ getProperties(sellRentType?: number) : Observable<Property[]> {
+  return this.httpClient.get<Property[]>(this.baseUrl + "/property/list/" + sellRentType)
+ }
+ getProperty(id: number) : Observable<Property> {
+    return this.getProperties(1).pipe(
       map(properties => {
-        const property = properties.find(prop => prop.Id == id);
+        const property = properties.find(prop => prop.id == id);
         if(!!property) {
            return property;
         } else {
@@ -30,14 +33,18 @@ export class HousingService {
     )
   }
 
-  getAllProperties(sellRentType?: eSellRentType) : Observable<Property[]> { 
+
+  // ** Preparing HTTP request section  **
+
+  // Simulate calling GET Endpoint using JSON object
+  getAllPropertiesJson(sellRentType?: eSellRentType) : Observable<Property[]> { 
     return this.httpClient.get('data/properties.json').pipe(
       map(data => {
         const properties: Property[] = [];
 
         for(const item in data){
           if(!!sellRentType){
-            if(data.hasOwnProperty(item) && data[item].SellRentType === sellRentType){
+            if(data.hasOwnProperty(item) && data[item].sellRentType === sellRentType){
               properties.push(data[item]);
             }
           } else {
@@ -48,7 +55,7 @@ export class HousingService {
         const localProperties = JSON.parse(localStorage.getItem('newProperty'));
         for(const property in localProperties){
           if(!!sellRentType){
-            if(localProperties.hasOwnProperty(property) && localProperties[property].SellRentType === sellRentType){
+            if(localProperties.hasOwnProperty(property) && localProperties[property].sellRentType === sellRentType){
               properties.push(localProperties[property]);
             }
           } else {
@@ -61,6 +68,7 @@ export class HousingService {
     );
   }
 
+  // Add property to Local Storage simulate HTTP POST request
   addProperty(property : Property){
     let props = [property];
     if(localStorage.getItem('newProperty')){
@@ -71,6 +79,8 @@ export class HousingService {
     localStorage.setItem('newProperty', JSON.stringify(props));     
   }
 
+
+  // Add property ID to Local Storage
   addPropertyId(){
     if(localStorage.getItem('Id')){
         const localStorageId = Number(localStorage.getItem('Id')) + 1; 
