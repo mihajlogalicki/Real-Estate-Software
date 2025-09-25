@@ -27,5 +27,15 @@ namespace WebAPI.Controllers
             
             return Ok(propertiesResult);
         }
+
+        [HttpGet("detail/{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetPropertyById(int id)
+        {
+            var property = await _unitOfWork.PropertyRepository.GetPropertyDetailAsync(id);
+            var propertyMapped = _autoMapper.Map<PropertyDetailDto>(property);
+
+            return Ok(propertyMapped);
+        }
     }
 }
