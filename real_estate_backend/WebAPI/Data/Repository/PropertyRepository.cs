@@ -29,7 +29,13 @@ namespace WebAPI.Data.Repository
 
         public async Task<IEnumerable<Property>> GetPropertiesAsync(int sellRentType)
         {
-            var properties = await _dataContext.Properties.ToListAsync();
+            var properties = await _dataContext.Properties
+                .Include(p => p.PropertyType)
+                .Include(p => p.FurnishingType)
+                .Include(p => p.City)
+                .Where(p => p.SellRentType == sellRentType)
+                .ToListAsync();
+
             return properties;
         }
     }
