@@ -41,7 +41,14 @@ export class PropertyDetailComponent {
 
   ngOnInit() {
     this.propertyId = Number(this.activatedRoute.snapshot.params['id']);
+    this.activatedRoute.data.subscribe(
+      (data: Property) => {
+        this.property = data['property_resolver'];
+      }
+    );
+    this.property.age = this.housingService.getPropertyAge(this.property.establishedPossesionOn);
 
+    /*
     this.activatedRoute.params
     .subscribe(
       (params) => {
@@ -55,6 +62,7 @@ export class PropertyDetailComponent {
           });
       }
     )
+    */
   }
   
   nextPage(){

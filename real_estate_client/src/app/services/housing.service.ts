@@ -17,27 +17,42 @@ export class HousingService {
  getAllCities() : Observable<string[]> {
   return this.httpClient.get<string[]>(this.baseUrl +'/city/cities');
  }
+
  getProperties(sellRentType?: number) : Observable<Property[]> {
   return this.httpClient.get<Property[]>(this.baseUrl + "/property/list/" + sellRentType)
  }
+ 
  getProperty(id: number) : Observable<Property> {
-    return this.getProperties(1).pipe(
-      map(properties => {
-        const property = properties.find(prop => prop.id == id);
-        if(!!property) {
-           return property;
-        } else {
-           throw new Error('Property Not Found!');
-        }
-      })
-    )
+    return this.httpClient.get<Property>(this.baseUrl + "/property/detail/" + id);
+ }
+ getPropertyAge(dateOfEstalishment: string) : string {
+  const today = new Date();
+  const established = new Date(dateOfEstalishment);
+
+  let age = today.getFullYear() - established.getFullYear();
+  const month = today.getMonth() - established. getMonth();
+
+  if(month < 0 || (month === 0 && today.getDate() < established.getDate())) {
+      age--;
   }
 
+  if(today < established){
+      return '0';
+  }
 
-  // ** Preparing HTTP request section  **
+  if(age == 0) {
+    return "Less than a year";
+  }
 
-  // Simulate calling GET Endpoint using JSON object
-  getAllPropertiesJson(sellRentType?: eSellRentType) : Observable<Property[]> { 
+  return age.toString();
+ }
+
+
+
+  // ** Simulate/Testing HTTP request section  **
+
+  // calling GET Endpoint using JSON object & Local Storage
+  getPropertiesFromLocalStorage(sellRentType?: eSellRentType) : Observable<Property[]> { 
     return this.httpClient.get('data/properties.json').pipe(
       map(data => {
         const properties: Property[] = [];
@@ -69,7 +84,7 @@ export class HousingService {
   }
 
   // Add property to Local Storage simulate HTTP POST request
-  addProperty(property : Property){
+  addPropertyToLocalStorage(property : Property){
     let props = [property];
     if(localStorage.getItem('newProperty')){
       const newProperty = JSON.parse(localStorage.getItem('newProperty'));
@@ -78,7 +93,6 @@ export class HousingService {
 
     localStorage.setItem('newProperty', JSON.stringify(props));     
   }
-
 
   // Add property ID to Local Storage
   addPropertyId(){
@@ -90,5 +104,19 @@ export class HousingService {
       localStorage.setItem('Id', '101');
       return 101;
     }
+  }
+
+  // Search target property from local storage and data.json
+   getPropertyFromLocalStorage(id: number) : Observable<Property> {
+    return this.getProperties(1).pipe(
+      map(properties => {
+        const property = properties.find(prop => prop.id == id);
+        if(!!property) {
+           return property;
+        } else {
+           throw new Error('Property Not Found!');
+        }
+      })
+    )
   }
 }

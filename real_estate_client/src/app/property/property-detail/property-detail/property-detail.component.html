@@ -20,11 +20,16 @@
         
                 <div>
                     <strong>Carpet Area: </strong>
-                    {{property.CarpetArea}} m<sup>2</sup>
+                    {{property.carpetArea}} m<sup>2</sup>
                 </div>
                 <div>
                     <strong>Furnishing Type: </strong>
                     {{property.furnishingType}}
+                </div>
+                 <div>
+                    <strong>Available for: </strong>
+                    <span *ngIf="property.sellRentType == 1">Purchase</span>
+                    <span *ngIf="property.sellRentType == 2">Rent</span>
                 </div>
               </div>
               <div class="card-footer">
@@ -55,17 +60,44 @@
               
                                 <div class="heading">
                                     <strong>Floor Number</strong>
-                                    <p>{{property.FloorNo}}</p>
+                                    <p>{{property.floorNo}} of {{property.totalFloors}}</p>
                                 </div>
               
                                 <div class="heading">
                                     <strong>Age of Property</strong>
-                                    <p>{{property.AOP}}</p>
+                                    <p>{{property.age}}</p>
                                 </div>
               
                                 <div class="heading">
                                     <strong>Posession</strong>
-                                    <p>{{property.Possession}}</p>
+                                    <p>{{property.establishedPossesionOn | date}}</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="heading">
+                                    <strong>Main Entrance</strong>
+                                    <p>{{property.mainEntrance}}</p>
+                                </div>
+
+                                <div class="heading">
+                                    <strong>Gated Community</strong>
+                                    <p *ngIf="property.gated">Yes</p>
+                                    <p *ngIf="!property.gated">No</p>
+                                </div>
+
+                                <div class="heading">
+                                    <strong>Security Deposit</strong>
+                                    <p>{{property.security}}</p>
+                                </div>
+                                <div class="heading">
+                                    <strong>Maintenance</strong>
+                                    <p>{{property.maintenance}}</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="heading">
+                                    <strong>About Property</strong>
+                                    <p>{{property.description}}</p>
                                 </div>
                             </div>
                      </div>
@@ -74,9 +106,7 @@
                         <div class="col-sm-12">
                             <h1>Address</h1>
                             <div class="heading">
-                                <strong>{{property.Address}}</strong><br/>
-                                <strong>{{property.Address2}}</strong><br/>
-                                <strong>{{property.city}}</strong>
+                                <strong>{{property.address}}, {{property.city}}</strong>
                             </div>
                         </div>
                     </p-tabpanel>

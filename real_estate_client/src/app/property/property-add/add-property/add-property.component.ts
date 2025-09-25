@@ -101,7 +101,7 @@ export class AddPropertyComponent {
   Save(){
     if(this.addPropertyForm.valid) {
         this.prepareData();
-        this.housingService.addProperty(this.property);
+        this.housingService.addPropertyToLocalStorage(this.property);
         this.messageService.add({ severity: 'success', summary: 'Property saved successfully!', life: 4000});
     } else {
         this.messageService.add({ severity: 'error', summary: 'Please review the form and provide all valid entries', life: 4000});
@@ -124,22 +124,20 @@ export class AddPropertyComponent {
 
     this.property.price = this.Price.value;
     this.property.builtArea = this.BuiltArea.value;
-    this.property.Security = this.Security.value;
-    this.property.Maintenance = this.Maintenance.value;
-    this.property.CarpetArea = this.CarpetArea.value;
+    this.property.security = this.Security.value;
+    this.property.mainEntrance = this.Maintenance.value;
+    this.property.carpetArea = this.CarpetArea.value;
 
-    this.property.Address = this.Address.value;
-    this.property.Address2 = this.Landmark.value;
-    this.property.FloorNo = this.FloorNo.value;
-    this.property.TotalFloor = this.TotalFloor.value;
+    this.property.address = this.Address.value;
+    this.property.floorNo = this.FloorNo.value;
+    this.property.totalFloors = this.TotalFloor.value;
 
     this.property.readyToMove = this.RTM.value;
-    this.property.AOP = this.AOP.value;
-    this.property.Possession = this.Possession.value;
-    this.property.Gated = this.Gated.value;
-    this.property.MainEntrance = this.MainEntrance.value;
-    this.property.Description = this.Description.value;
-    this.property.PostedOn = new Date().toString();
+    this.property.age = this.AOP.value;
+    this.property.establishedPossesionOn = this.Possession.value;
+    this.property.gated = this.Gated.value;
+    this.property.mainEntrance = this.MainEntrance.value;
+    this.property.description = this.Description.value;
   }
 
 
