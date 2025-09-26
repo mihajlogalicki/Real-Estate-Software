@@ -37,13 +37,7 @@ export class PropertyListComponent {
         .pipe(take(1))
         .subscribe({
          next: data => {
-            this.properties = data;
-            const newProperty = JSON.parse(localStorage.getItem('newProperty'));
-
-            if(!!newProperty && newProperty.SellRentType == this.SellRentType) {
-              this.properties = [newProperty, ...this.properties];
-            }
-           
+            this.properties = data;         
         },
          error: () => {
             console.log(`Server error occured`);
@@ -57,5 +51,13 @@ export class PropertyListComponent {
     } else {
          this.sortByDirection = 'asc';
     }
+  }
+
+  // Testing Angular UI - Fetching properties from Local Storage
+  GetPropertiesLocalStorage() {
+    const newProperty = JSON.parse(localStorage.getItem('newProperty'));            
+    if(!!newProperty && newProperty.SellRentType == this.SellRentType) {
+        this.properties = [newProperty, ...this.properties];
+      }
   }
 }

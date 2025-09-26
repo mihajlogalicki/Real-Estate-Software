@@ -12,5 +12,6 @@
         public string Country { get; set; }
         public bool ReadyToMove { get; set; }
         public int SellRentType { get; set; }
+        public DateTime EstablishedPossesionOn { get; set; }
     }
 }

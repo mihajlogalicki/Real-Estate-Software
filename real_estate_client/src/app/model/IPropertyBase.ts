@@ -9,4 +9,5 @@ export interface IPropertyBase {
     builtArea: number;
     city: string;
     readyToMove: number;
+    establishedPossesionOn?: Date;
 }

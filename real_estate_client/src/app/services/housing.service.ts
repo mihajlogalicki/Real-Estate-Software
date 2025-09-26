@@ -25,7 +25,7 @@ export class HousingService {
  getProperty(id: number) : Observable<Property> {
     return this.httpClient.get<Property>(this.baseUrl + "/property/detail/" + id);
  }
- getPropertyAge(dateOfEstalishment: string) : string {
+ getPropertyAge(dateOfEstalishment: Date) : string {
   const today = new Date();
   const established = new Date(dateOfEstalishment);
 
