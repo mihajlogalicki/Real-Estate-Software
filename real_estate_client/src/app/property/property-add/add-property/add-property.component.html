@@ -32,7 +32,12 @@
                             <div>
                                 <label>In Building/Society/Project</label>
                             </div>   
-                            <input type="text" class="form-control" formControlName="Name" [(ngModel)]="propertyView.name">
+                            <input 
+                                #name
+                                type="text" 
+                                class="form-control" 
+                                formControlName="Name" 
+                                (keyup)="propertyView.name = name.value">
 
                             <div class="error-block" *ngIf="Name.hasError('required') && Name.touched">
                                 <p>Property Name is required</p>
@@ -45,7 +50,7 @@
                             </div>                     
                             <p-dropdown
                                 [options]="cityOptions" 
-                                [(ngModel)]="propertyView.city"
+                                (onChange)="onSelectedCity($event)"
                                 formControlName="City"
                                 optionLabel="name"
                                 optionValue="id"
@@ -63,8 +68,8 @@
                             <div *ngFor="let propType of propertyTypes" class="d-inline me-1">                      
                                 <p-radiobutton 
                                    formControlName="PropertyType"
-                                   [value]="propType.id" 
-                                   [(ngModel)]="propertyView.propertyType">
+                                   [value]="propType.id"
+                                   (onClick)="propertyView.propertyType = propType.name">
                                 </p-radiobutton>
                                 <label> {{ propType.name }}</label>
                             </div>
@@ -79,8 +84,8 @@
                             <div *ngFor="let furnishingType of furnishingTypes" class="d-inline me-2">
                                 <p-radiobutton 
                                     formControlName="furnishingType" 
-                                    [value]="furnishingType.id" 
-                                    [(ngModel)]="propertyView.furnishingType">
+                                    [value]="furnishingType.id"
+                                    (onClick)="propertyView.furnishingType = furnishingType.name">
                                 </p-radiobutton>
                                 <label> {{ furnishingType.name }}</label>
                             </div>
@@ -95,7 +100,11 @@
                             <label *ngIf="SellRentType.value == 1">Price (IN USD)</label>
                             <label *ngIf="SellRentType.value == 2">Rent (IN USD)</label>
 
-                            <input type="number" class="form-control" formControlName="Price" [(ngModel)]="propertyView.price">
+                            <input #price
+                                   type="number" 
+                                   class="form-control" 
+                                   formControlName="Price"
+                                   (keyup)="propertyView.price = +price.value">
 
                             <div class="error-block" *ngIf="Price.hasError('required') && Price.touched">
                                 <p>{{SellRentType.value == 1 ? ' Price' : 'Rent'}} amount is required</p>
@@ -110,8 +119,9 @@
                             <input type="number" class="form-control" formControlName="Maintenance">
                         </div>
                         <div class="form-group">
-                            <label>Total Area</label>
-                            <input type="text" formControlName="BuiltArea" [(ngModel)]="propertyView.builtArea" class="form-control">
+                            <label>Built Area</label>
+                            <input #builtArea type="number" class="form-control" formControlName="BuiltArea"
+                             (keyup)="propertyView.builtArea = +builtArea.value" >
                         </div>
                         <div class="form-group">
                             <label>Carpet Area (In m<sup>2</sup>)</label>
@@ -148,23 +158,27 @@
                                 <label>Ready to Move</label>
                             </div>
                         
-                            <p-radiobutton value="1" formControlName="RTM"/>
+                            <p-radiobutton value="1" formControlName="RTM" (onClick)="propertyView.readyToMove = 1"/>
                             <label class="me-2 ">Yes</label>
 
-                            <p-radiobutton value="2" formControlName="RTM"/>
+                            <p-radiobutton value="2" formControlName="RTM" (onClick)="propertyView.readyToMove = 0"/>
                             <label>No</label>
                         </div>
-                        <div *ngIf="RTM.value == 1" class="form-group mt-1">
-                            <label>Age of Property</label>
-                            <input type="number" class="form-control" formControlName="AOP">
-                        </div>
-                        <!-- value == 2 -->
-                        <div *ngIf="RTM.value == 2">
+                        <div>
                             <div class="form-group mt-2">
                                 <div>
-                                    <label>Possession/Avaialble From</label>
-                                </div>                       
-                                <p-datepicker [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" formControlName="Possession" dateFormat="dd/mm/yy" />
+                                    <label *ngIf="!propertyView.readyToMove">Possession/Avaialble From </label>
+                                    <label *ngIf="propertyView.readyToMove">Establisment: </label>
+                                </div> 
+
+                                <p-datepicker
+                                    #date 
+                                    [iconDisplay]="'input'" 
+                                    [showIcon]="true"
+                                    inputId="icondisplay" 
+                                    formControlName="Possession" 
+                                    dateFormat="dd/mm/yy" 
+                                    (onSelect)="propertyView.establishedPossesionOn = date.value"/>
                             </div>
                         </div>
                         <div class="form-group  mt-1">

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IPropertyBase } from '../../../model/IPropertyBase';
@@ -44,6 +44,11 @@ export class AddPropertyComponent {
     private formBuilder: FormBuilder, 
     private messageService: MessageService,
     private housingService: HousingService){}
+
+  onSelectedCity(option: any){
+    const optionName = this.cityOptions.find(x => x.id == option.value);
+    this.propertyView.city = optionName.name;
+  }
 
   ngOnInit(){
     this.initAddPropertyForm();
@@ -157,8 +162,6 @@ export class AddPropertyComponent {
     this.property.mainEntrance = this.MainEntrance.value;
     this.property.description = this.Description.value;
   }
-
-
 
   //getters for Basic Info tab Form Group and related Form Controls
   get BasicInfoFormGroup(){
