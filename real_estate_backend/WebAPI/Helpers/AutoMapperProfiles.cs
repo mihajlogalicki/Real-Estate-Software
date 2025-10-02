@@ -10,6 +10,7 @@ namespace WebAPI.Helpers
         {
             CreateMap<City, CityDto>();
             CreateMap<CityDto, City>();
+
             CreateMap<Property, PropertyListDto>()
                 .ForMember(d => d.City, opt => opt.MapFrom(src => src.City.Name))
                 .ForMember(d => d.Country, opt => opt.MapFrom(src => src.City.Country))
@@ -21,6 +22,9 @@ namespace WebAPI.Helpers
                 .ForMember(d => d.FurnishingType, opt => opt.MapFrom(src => src.FurnishingType.Name))
                 .ForMember(d => d.City, opt => opt.MapFrom(src => src.City.Name))
                 .ForMember(d => d.Country, opt => opt.MapFrom(src => src.City.Country));
+
+            CreateMap<PropertyType, KeyValuePairDto>().ReverseMap();
+            CreateMap<FurnishingType, KeyValuePairDto>().ReverseMap();
         }
     }
 }
