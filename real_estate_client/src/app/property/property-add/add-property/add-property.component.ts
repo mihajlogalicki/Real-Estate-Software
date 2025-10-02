@@ -6,6 +6,7 @@ import { MessageService } from 'primeng/api';
 import { Property } from '../../../model/Property';
 import { HousingService } from '../../../services/housing.service';
 import { take } from 'rxjs';
+import { IKeyValuePair } from '../../../model/IKeyValuePair';
 
 @Component({
   selector: 'app-add-property',
@@ -18,8 +19,8 @@ export class AddPropertyComponent {
 
   // @ViewChild('Form') groupedFormControl : NgForm; -> Old, used for Template Driven Form
   public currentTab : number = 0;
-  public propertyTypes : Array<string> = ['House', 'Villa', 'Apartment', 'Building'];
-  public furnishingTypes : Array<string> = ['Fully', 'Semi', 'Unfurnished'];
+  public propertyTypes : Array<IKeyValuePair>;
+  public furnishingTypes : Array<IKeyValuePair>;
   public mainEntrances : Array<string> = ['East', 'West', 'South', 'North'];
   public addPropertyForm : FormGroup;
   public isNextButtonClicked : boolean;
@@ -47,7 +48,8 @@ export class AddPropertyComponent {
   ngOnInit(){
     this.initAddPropertyForm();
     this.getCities();
-
+    this.getPropertyTypes();
+    this.getFurnishingTypes();
   }
 
   initAddPropertyForm(){
@@ -96,6 +98,22 @@ export class AddPropertyComponent {
         .subscribe(data => {
           this.cityOptions = data;
     })
+  }
+  getPropertyTypes(){
+    this.housingService
+        .getPropertyTypes()
+        .pipe(take(1))
+        .subscribe(data => {
+          this.propertyTypes = data;
+        })
+  }
+  getFurnishingTypes(){
+    this.housingService
+        .getFurnishingTypes()
+        .pipe(take(1))
+        .subscribe(data => {
+          this.furnishingTypes = data;
+        })
   }
 
   Save(){

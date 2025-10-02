@@ -4,6 +4,7 @@ import { Observable, map } from 'rxjs';
 import { eSellRentType } from '../property/property-list/property-list/eRealEstateType';
 import { Property } from '../model/Property';
 import { environment } from '../Environments/environment';
+import { IKeyValuePair } from '../model/IKeyValuePair';
 
 @Injectable({
   providedIn: 'root'
@@ -21,10 +22,19 @@ export class HousingService {
  getProperties(sellRentType?: number) : Observable<Property[]> {
   return this.httpClient.get<Property[]>(this.baseUrl + "/property/list/" + sellRentType)
  }
- 
+
+ getPropertyTypes() : Observable<IKeyValuePair[]> {
+   return this.httpClient.get<IKeyValuePair[]>(this.baseUrl + "/propertytype/list");
+ }
+
+ getFurnishingTypes(): Observable<IKeyValuePair[]>{
+  return this.httpClient.get<IKeyValuePair[]>(this.baseUrl + "/furnishingtype/list");
+ }
+
  getProperty(id: number) : Observable<Property> {
     return this.httpClient.get<Property>(this.baseUrl + "/property/detail/" + id);
  }
+
  getPropertyAge(dateOfEstalishment: Date) : string {
   const today = new Date();
   const established = new Date(dateOfEstalishment);

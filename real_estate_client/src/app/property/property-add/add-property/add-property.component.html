@@ -60,9 +60,13 @@
                             <div>
                                 <label>Property Type</label>
                             </div>
-                            <div *ngFor="let property of propertyTypes" class="d-inline me-1">                      
-                                <p-radiobutton formControlName="PropertyType" [value]="property" [(ngModel)]="propertyView.propertyType"></p-radiobutton>
-                                <label> {{ property }}</label>
+                            <div *ngFor="let propType of propertyTypes" class="d-inline me-1">                      
+                                <p-radiobutton 
+                                   formControlName="PropertyType"
+                                   [value]="propType.id" 
+                                   [(ngModel)]="propertyView.propertyType">
+                                </p-radiobutton>
+                                <label> {{ propType.name }}</label>
                             </div>
 
                             <h5 class="error-block d-inline" *ngIf="PropertyType.hasError('required')">*</h5>
@@ -73,8 +77,12 @@
                                 <label for="type">Furnishing Type</label>
                             </div>                  
                             <div *ngFor="let furnishingType of furnishingTypes" class="d-inline me-2">
-                                <p-radiobutton formControlName="furnishingType" [value]="furnishingType" [(ngModel)]="propertyView.furnishingType"></p-radiobutton>
-                                <label> {{ furnishingType }}</label>
+                                <p-radiobutton 
+                                    formControlName="furnishingType" 
+                                    [value]="furnishingType.id" 
+                                    [(ngModel)]="propertyView.furnishingType">
+                                </p-radiobutton>
+                                <label> {{ furnishingType.name }}</label>
                             </div>
                         </div>
 
