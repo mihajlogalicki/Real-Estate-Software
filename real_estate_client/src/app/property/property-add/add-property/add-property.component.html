@@ -158,10 +158,10 @@
                                 <label>Ready to Move</label>
                             </div>
                         
-                            <p-radiobutton value="1" formControlName="RTM" (onClick)="propertyView.readyToMove = 1"/>
+                            <p-radiobutton [value]="true" formControlName="RTM" (onClick)="propertyView.readyToMove = true"/>
                             <label class="me-2 ">Yes</label>
 
-                            <p-radiobutton value="2" formControlName="RTM" (onClick)="propertyView.readyToMove = 0"/>
+                            <p-radiobutton [value]="false" formControlName="RTM" (onClick)="propertyView.readyToMove = false"/>
                             <label>No</label>
                         </div>
                         <div>
@@ -177,7 +177,7 @@
                                     [showIcon]="true"
                                     inputId="icondisplay" 
                                     formControlName="Possession" 
-                                    dateFormat="dd/mm/yy" 
+                                    dateFormat="dd/mm/yyyy" 
                                     (onSelect)="propertyView.establishedPossesionOn = date.value"/>
                             </div>
                         </div>
@@ -186,10 +186,10 @@
                                 <label>Gated Community</label>
                             </div>
                            
-                            <p-radiobutton value="1" formControlName="Gated"/>
+                            <p-radiobutton [value]="true" formControlName="Gated"/>
                             <label class="me-2 ">Yes</label>
 
-                            <p-radiobutton value="2" formControlName="Gated"/>
+                            <p-radiobutton [value]="false" formControlName="Gated"/>
                             <label>No</label>
                         </div>
                         <div class="form-group  mt-1">

@@ -8,6 +8,6 @@ export interface IPropertyBase {
     image?: string;
     builtArea: number;
     city: string;
-    readyToMove: number;
+    readyToMove: boolean;
     establishedPossesionOn?: Date;
 }

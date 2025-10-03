@@ -85,7 +85,7 @@ export class AddPropertyComponent {
 
       OtherDetails: this.formBuilder.group({
         RTM: [null, Validators.required],
-        AOP: [null],
+        AOP: [1],
         Possession: [null],
         Gated: [null],
         MainEntrance:  [null],
@@ -121,29 +121,33 @@ export class AddPropertyComponent {
         })
   }
 
-  Save(){
+  Save() {
     if(this.addPropertyForm.valid) {
         this.prepareData();
-        this.housingService.addPropertyToLocalStorage(this.property);
-        this.messageService.add({ severity: 'success', summary: 'Property saved successfully!', life: 4000});
+        this.housingService
+            .addProperty(this.property)
+            .pipe(take(1))
+            .subscribe(() => {
+              this.messageService.add({ severity: 'success', summary: 'Property saved successfully!', life: 4000});
+
+              if(this.property.sellRentType == 2) {  
+                  this.router.navigate(['/rent-property']);
+              } else {
+                  this.router.navigate(['/'])
+              }          
+        })       
     } else {
         this.messageService.add({ severity: 'error', summary: 'Please review the form and provide all valid entries', life: 4000});
-    }
-
-    if(this.property.sellRentType == 2) {
-       this.router.navigate(['/rent-property']);
-    } else {
-      this.router.navigate(['/'])
     }
   }
 
   private prepareData() {
-    this.property.id = this.housingService.addPropertyId();
+    // this.property.id = this.housingService.addPropertyId(); -> Used for local storage test
     this.property.sellRentType = this.SellRentType.value;
-    this.property.propertyType = this.PropertyType.value;
+    this.property.propertyTypeId = this.PropertyType.value;
     this.property.name = this.Name.value;
-    this.property.city = this.City.value;
-    this.property.furnishingType = this.FurnishingType.value;
+    this.property.cityId = this.City.value;
+    this.property.furnishingTypeId = this.FurnishingType.value;
 
     this.property.price = this.Price.value;
     this.property.builtArea = this.BuiltArea.value;
