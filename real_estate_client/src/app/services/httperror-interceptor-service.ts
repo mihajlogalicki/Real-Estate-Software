@@ -12,7 +12,7 @@ export class HttpInterceptorService implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         console.log("HTTP request started");
         return next.handle(request).pipe(
-            retry({count: 5, delay: this.retryRequestWhen}),
+            retry({count: 2, delay: this.retryRequestWhen}),
             catchError((error: HttpErrorResponse) => {
                 const errorMessage = this.setError(error);
                 this.messageService.add({severity: 'error', summary: errorMessage, life: 3000});
@@ -28,12 +28,16 @@ export class HttpInterceptorService implements HttpInterceptor {
     */
     setError(errorResponse: HttpErrorResponse): string {
         let errorMessage = "";
-
-        if(!!errorResponse.error['errors']) {
+        
+        if(!!errorResponse.error && !!errorResponse.error['errors']) {
         for (const [key, value] of Object.entries(errorResponse.error['errors'])) {
                 errorMessage += `${value} \n`;
             }
-        } else {
+        } 
+        else if(errorResponse.status === 401) {
+            errorMessage = "Unauthorized";
+        }
+        else {
             errorMessage = errorResponse.error.errorMessage ?? "Unknown server error occured.";
         }
 

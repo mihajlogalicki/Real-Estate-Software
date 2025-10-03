@@ -51,6 +51,10 @@ export class AddPropertyComponent {
   }
 
   ngOnInit(){
+    if(!localStorage.getItem('username')) {
+       this.messageService.add({ severity: 'error', summary: 'You must be logged in to add property!', life: 4000});
+    }
+
     this.initAddPropertyForm();
     this.getCities();
     this.getPropertyTypes();
@@ -136,7 +140,7 @@ export class AddPropertyComponent {
               }          
         })       
     } else {
-        this.messageService.add({ severity: 'error', summary: 'Please review the form and provide all valid entries', life: 4000});
+        this.messageService.add({ severity: 'error', summary: 'Please review the form and provide valid data', life: 4000});
     }
   }
 

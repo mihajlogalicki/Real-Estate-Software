@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { eSellRentType } from '../property/property-list/property-list/eRealEstateType';
 import { Property } from '../model/Property';
@@ -37,7 +37,14 @@ export class HousingService {
 
   // HTTP POST requests
  addProperty(property: Property) : Observable<any> {
-   return this.httpClient.post(this.baseUrl + "/property/add", property);
+
+  const httpOptions = {
+    headers: new HttpHeaders({
+      Authorization: 'Bearer ' + localStorage.getItem('token')
+    })
+  };
+
+   return this.httpClient.post(this.baseUrl + "/property/add", property, httpOptions);
  }
 
  getPropertyAge(dateOfEstalishment: Date) : string {
