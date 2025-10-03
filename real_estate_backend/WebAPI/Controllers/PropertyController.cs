@@ -30,7 +30,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("detail/{id}")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> GetPropertyById(int id)
         {
             var property = await _unitOfWork.PropertyRepository.GetPropertyDetailAsync(id);
@@ -40,12 +40,12 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        [AllowAnonymous]
         public async Task<IActionResult> AddProperty(PropertyAddDto propertyAddDto)
         {
             var property = _autoMapper.Map<Property>(propertyAddDto);
-            property.PostedBy = 1;
-            property.LastUpdatedBy = 1;
+            var userId = GetUserId();
+            property.PostedBy = userId;
+            property.LastUpdatedBy = userId;
 
             await _unitOfWork.PropertyRepository.AddPropertyAsync(property);
             await _unitOfWork.SaveAsync();
