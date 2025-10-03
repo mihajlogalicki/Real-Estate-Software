@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.DTOs;
 using WebAPI.Interfaces;
+using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
@@ -36,6 +37,20 @@ namespace WebAPI.Controllers
             var propertyMapped = _autoMapper.Map<PropertyDetailDto>(property);
 
             return Ok(propertyMapped);
+        }
+
+        [HttpPost("add")]
+        [AllowAnonymous]
+        public async Task<IActionResult> AddProperty(PropertyAddDto propertyAddDto)
+        {
+            var property = _autoMapper.Map<Property>(propertyAddDto);
+            property.PostedBy = 1;
+            property.LastUpdatedBy = 1;
+
+            await _unitOfWork.PropertyRepository.AddPropertyAsync(property);
+            await _unitOfWork.SaveAsync();
+
+            return StatusCode(201);
         }
     }
 }

@@ -14,7 +14,7 @@ export class HousingService {
   private baseUrl : string = environment.baseUrl;
   constructor(private httpClient: HttpClient) { }
 
-  // HTTP requests
+  // HTTP GET requests
  getAllCities() : Observable<string[]> {
   return this.httpClient.get<string[]>(this.baseUrl +'/city/cities');
  }
@@ -33,6 +33,11 @@ export class HousingService {
 
  getProperty(id: number) : Observable<Property> {
     return this.httpClient.get<Property>(this.baseUrl + "/property/detail/" + id);
+ }
+
+  // HTTP POST requests
+ addProperty(property: Property) : Observable<any> {
+   return this.httpClient.post(this.baseUrl + "/property/add", property);
  }
 
  getPropertyAge(dateOfEstalishment: Date) : string {
