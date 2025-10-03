@@ -14,7 +14,7 @@ export class FilterPipe implements PipeTransform {
      }
 
      searchText = searchText.toLowerCase();
- 
+     
      for(let property of properties){
         if(property[name].toLowerCase().includes(searchText)){
            result.push(property);

@@ -178,7 +178,12 @@
                                     inputId="icondisplay" 
                                     formControlName="Possession" 
                                     dateFormat="dd/mm/yyyy" 
-                                    (onSelect)="propertyView.establishedPossesionOn = date.value"/>
+                                    (onSelect)="propertyView.establishedPossesionOn = date.value">
+                                </p-datepicker>
+                                
+                                <div class="error-block" *ngIf="Possession.invalid && Possession.touched">
+                                   <p>Please select establisment/possession date</p>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group  mt-1">

@@ -19,7 +19,7 @@ export class PropertyListComponent {
   public sortByDirection : string = 'asc';
 
   // sort
-  public sortOptions: string[] = ['City', 'Price'];
+  public sortOptions: string[] = ['city', 'price'];
   public sortBy : string;
 
   constructor(private housingService: HousingService, private activatedRoute: ActivatedRoute){}

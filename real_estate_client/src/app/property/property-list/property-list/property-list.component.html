@@ -14,7 +14,7 @@
     </div>
 </div>
 <div class="row">
-    <div *ngFor="let property of properties | filter: searchText: 'Name' | sort: [sortBy, sortByDirection] " class="shadow-lg col-sm-4 p-3">
+    <div *ngFor="let property of properties | filter: searchText: 'name' | sort: [sortBy, sortByDirection] " class="shadow-lg col-sm-4 p-3">
         <app-property-card
             [property]="property">
         </app-property-card>

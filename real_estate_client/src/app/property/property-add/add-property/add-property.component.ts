@@ -70,8 +70,8 @@ export class AddPropertyComponent {
       PricingInfo: this.formBuilder.group({
         Price: [null, Validators.required],
         BuiltArea: [null, Validators.required],
-        Security:  [null],
-        Maintenance: [null],
+        Security:  [0],
+        Maintenance: [0],
         CarpetArea: [null]
       }),
 
@@ -79,14 +79,13 @@ export class AddPropertyComponent {
         FloorNo: [null],
         TotalFloor: [null],
         Address:  [null, Validators.required],
-        Address2:  [null],
         Landmark: [null]
       }),
 
       OtherDetails: this.formBuilder.group({
         RTM: [null, Validators.required],
-        AOP: [1],
-        Possession: [null],
+        AOP: [0],
+        Possession: [null, Validators.required],
         Gated: [null],
         MainEntrance:  [null],
         Description: [null, Validators.required],
@@ -152,7 +151,7 @@ export class AddPropertyComponent {
     this.property.price = this.Price.value;
     this.property.builtArea = this.BuiltArea.value;
     this.property.security = this.Security.value;
-    this.property.mainEntrance = this.Maintenance.value;
+    this.property.maintenance = this.Maintenance.value;
     this.property.carpetArea = this.CarpetArea.value;
 
     this.property.address = this.Address.value;
@@ -160,7 +159,6 @@ export class AddPropertyComponent {
     this.property.totalFloors = this.TotalFloor.value;
 
     this.property.readyToMove = this.RTM.value;
-    this.property.age = this.AOP.value;
     this.property.establishedPossesionOn = this.Possession.value;
     this.property.gated = this.Gated.value;
     this.property.mainEntrance = this.MainEntrance.value;
@@ -220,9 +218,6 @@ export class AddPropertyComponent {
   get TotalFloor(){
     return this.AddressFormGroup.controls['TotalFloor'] as FormControl;
   }
-  get Address2(){
-    return this.AddressFormGroup.controls['Address2'] as FormControl;
-  }
   get Landmark(){
     return this.AddressFormGroup.controls['Landmark'] as FormControl;
   }
@@ -233,9 +228,6 @@ export class AddPropertyComponent {
   }
   get RTM(){
     return this.OtherDetailsFormGroup.controls['RTM'] as FormControl;
-  }
-  get AOP(){
-    return this.OtherDetailsFormGroup.controls['AOP'] as FormControl;
   }
   get Possession(){
     return this.OtherDetailsFormGroup.controls['Possession'] as FormControl;
