@@ -6,6 +6,7 @@ using WebAPI.Data;
 using WebAPI.Helpers;
 using WebAPI.Interfaces;
 using WebAPI.Middlewares;
+using WebAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,7 @@ builder.Services.AddCors(options =>
 });
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IPhotoInterface, PhotoService>();
 
 // JWT Authentication service
 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
