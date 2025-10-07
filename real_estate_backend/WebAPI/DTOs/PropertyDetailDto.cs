@@ -1,4 +1,6 @@
-﻿namespace WebAPI.DTOs
+﻿using WebAPI.Models;
+
+namespace WebAPI.DTOs
 {
     public class PropertyDetailDto : PropertyListDto
     {
@@ -13,6 +15,7 @@
         public DateTime EstablishedPossesionOn { get; set; }
         public int Age { get; set; }
         public string Description { get; set; }
+        public ICollection<PhotoDto> Photos { get; set; }
 
     }
 }

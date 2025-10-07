@@ -32,7 +32,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("detail/{id}")]
-        [Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> GetPropertyById(int id)
         {
             var property = await _unitOfWork.PropertyRepository.GetPropertyDetailAsync(id);
@@ -55,7 +55,7 @@ namespace WebAPI.Controllers
             return StatusCode(201);
         }
 
-        [HttpPost("add/photo/{id}")]
+        [HttpPost("add/photo/{propertyId}")]
         [AllowAnonymous]
         public async Task<IActionResult> AddPropertyPhoto(IFormFile photo, int propertyId)
         {
@@ -65,7 +65,23 @@ namespace WebAPI.Controllers
                 return BadRequest(uploadResult.Error.Message);
             }
 
-            return Ok(201);
+            var propertyDb = await _unitOfWork.PropertyRepository.GetPropertyPhotoAsync(propertyId);
+
+            var file = new Photo()
+            {
+                ImageUrl = uploadResult.SecureUrl.AbsoluteUri,
+                PublicId = uploadResult.PublicId
+            };
+
+            if(propertyDb.Photos.Count == 0)
+            {
+                file.IsPrimary = true;
+            }
+
+            propertyDb.Photos.Add(file);
+            await _unitOfWork.SaveAsync();
+
+            return StatusCode(201);
         }
     }
 }

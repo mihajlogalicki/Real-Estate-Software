@@ -8,5 +8,6 @@ namespace WebAPI.Interfaces
         Task<Property> GetPropertyDetailAsync(int id);
         Task AddPropertyAsync(Property property);
         Task DeletePropertyAsync(int id);
+        Task<Property> GetPropertyPhotoAsync(int id);
     }
 }
