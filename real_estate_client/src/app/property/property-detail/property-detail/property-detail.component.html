@@ -2,8 +2,8 @@
     <div class="col-sm-4 p-0">
         <div class="card">
             <div class="card-img-wrapper">
-                <img *ngIf="property.image" src="assets/{{property.image}}.png" class="card-img-top" alt="">
-                <img *ngIf="!property.image" src="assets/default.jpg" class="card-img-top" alt="">
+                <img *ngIf="primaryImage" src="{{primaryImage}}" class="card-img-top" alt="">
+                <img *ngIf="!primaryImage" src="assets/default.jpg" class="card-img-top" alt="">
             </div>
             <div class="card-body">
                 <h1 class="card-title">{{property.name}}</h1>
@@ -112,16 +112,17 @@
                     </p-tabpanel>
                     <p-tabpanel [value]="2">
                             <p-galleria 
-                              [value]="images" 
+                              [value]="galleryImages"
                               [showItemNavigators]="true" 
                               [showIndicators]="false"
-                              [numVisible]="3">
-                                <ng-template #item let-item>
-                                    <img [src]="item.itemImageSrc" class="w-100 d-block" />
-                                </ng-template>
+                              [showThumbnails]="true"
+                              [numVisible]="5">
+                              <ng-template #image let-item>
+                                    <img [src]="item.imageUrl" class="w-100 d-block" />
+                                </ng-template>    
                                 <ng-template #thumbnail let-item>
-                                    <img [src]="item.thumbnailImageSrc" class="w-100 d-block p-2"/>
-                                </ng-template>
+                                    <img [src]="item.imageUrl" class="w-100 d-block" />
+                                </ng-template>                 
                         </p-galleria>                    
                     </p-tabpanel>
                     <p-tabpanel [value]="3">

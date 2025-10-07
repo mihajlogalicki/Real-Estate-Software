@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs';
 import { HousingService } from '../../../services/housing.service';
 import { Property } from '../../../model/Property';
+import { Photo } from '../../../model/Photo';
 
 @Component({
   selector: 'app-property-detail',
@@ -18,26 +19,8 @@ export class PropertyDetailComponent {
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private housingService: HousingService){}
 
-  images: any[] = [
-    {
-    itemImageSrc: 'assets/prop-1.png',
-    thumbnailImageSrc: 'assets/prop-1.png',
-    alt: 'Description for Image 1',
-    title: 'Title 1'
-    },
-    {
-      itemImageSrc: 'assets/prop-2.png',
-      thumbnailImageSrc: 'assets/prop-2.png',
-      alt: 'Description for Image 2',
-      title: 'Title 2'
-    },
-    {
-        itemImageSrc: 'assets/prop-3.png',
-        thumbnailImageSrc: 'assets/prop-3.png',
-        alt: 'Description for Image 3',
-        title: 'Title 3'
-    },
-];
+  galleryImages: Photo[] = []; 
+  primaryImage: string = null;
 
   ngOnInit() {
     this.propertyId = Number(this.activatedRoute.snapshot.params['id']);
@@ -47,6 +30,7 @@ export class PropertyDetailComponent {
       }
     );
     this.property.age = this.housingService.getPropertyAge(this.property.establishedPossesionOn);
+    this.galleryImages = this.GetPhotosByProperty();
 
     /*
     this.activatedRoute.params
@@ -64,7 +48,17 @@ export class PropertyDetailComponent {
     )
     */
   }
-  
+
+  GetPhotosByProperty() : Photo[]{
+    const photosUrls: Photo[] = [];
+    for(let photo of this.property.photos){
+      photosUrls.push(photo);
+    }
+
+    this.primaryImage = photosUrls.find(x => x.isPrimary).imageUrl;
+    return photosUrls;
+  }
+
   nextPage(){
     this.propertyId++;
     this.router.navigate(['property-detail', this.propertyId]);
