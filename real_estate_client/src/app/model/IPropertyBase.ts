@@ -5,7 +5,7 @@ export interface IPropertyBase {
     propertyType: string;
     furnishingType: string;
     sellRentType: number;
-    image?: string;
+    primaryPhoto?: string;
     builtArea: number;
     city: string;
     readyToMove: boolean;

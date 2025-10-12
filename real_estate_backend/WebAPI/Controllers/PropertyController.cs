@@ -67,6 +67,11 @@ namespace WebAPI.Controllers
 
             var propertyDb = await _unitOfWork.PropertyRepository.GetPropertyPhotoAsync(propertyId);
 
+            if(propertyDb == null)
+            {
+                return BadRequest("Property does not exists!");
+            }
+
             var file = new Photo()
             {
                 ImageUrl = uploadResult.SecureUrl.AbsoluteUri,
@@ -82,6 +87,49 @@ namespace WebAPI.Controllers
             await _unitOfWork.SaveAsync();
 
             return StatusCode(201);
+        }
+
+        [HttpPost("set-primary-photo/{propertyId}/{publicId}")]
+        [AllowAnonymous]
+        public async Task <IActionResult> SetPrimaryPhoto(int propertyId, string publicId)
+        {
+            var userId = GetUserId();
+
+            var propertyUpdate = await _unitOfWork.PropertyRepository.GetPropertyDetailAsync(propertyId);
+            
+            if(propertyUpdate == null)
+            {
+                return BadRequest("Property does not exists!");
+            }
+
+            //if(propertyUpdate.PostedBy != userId)
+            //{
+            //    return BadRequest("You are not authorized to change the photo!");
+            // }
+
+            var file = propertyUpdate.Photos.FirstOrDefault(p => p.PublicId == publicId);   
+            if(file == null)
+            {
+                return BadRequest("Photo does not exists, error occured!");
+            }
+
+            if(file.IsPrimary)
+            {
+                return BadRequest("This is already primary photo!");
+            }
+
+            var currentPrimary = propertyUpdate.Photos.FirstOrDefault(p => p.IsPrimary);
+            if (currentPrimary != null) currentPrimary.IsPrimary = false;
+
+            file.IsPrimary = true;
+
+            bool isSavedAsync = await _unitOfWork.SaveAsync();
+            if (isSavedAsync)
+            {
+                return NoContent();
+            }
+
+            return BadRequest("Failed to set primary photo!");
         }
     }
 }

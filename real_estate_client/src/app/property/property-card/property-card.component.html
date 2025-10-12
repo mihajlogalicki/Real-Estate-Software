@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-img-wrapper">
-            <img *ngIf="property.image; else defaultImage" class="card-img-top" src="assets/{{property.image}}.png">
+            <img *ngIf="property.primaryPhoto; else defaultImage" class="card-img-top" src="{{property.primaryPhoto}}">
             <ng-template #defaultImage>
                 <img class="card-img-top" src="assets/default.jpg">
             </ng-template>

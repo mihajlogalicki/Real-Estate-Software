@@ -33,6 +33,7 @@ namespace WebAPI.Data.Repository
                 .Include(p => p.PropertyType)
                 .Include(p => p.FurnishingType)
                 .Include(p => p.City)
+                .Include(p => p.Photos)
                 .Where(p => p.SellRentType == sellRentType)
                 .ToListAsync();
 
@@ -47,7 +48,7 @@ namespace WebAPI.Data.Repository
                 .Include(p => p.City)
                 .Include(p => p.Photos)
                 .Where(p => p.Id == id)
-                .SingleAsync();
+                .SingleOrDefaultAsync();
 
             return property;
         }
@@ -57,7 +58,7 @@ namespace WebAPI.Data.Repository
             var property = await _dataContext.Properties
                 .Include(p => p.Photos)
                 .Where(p => p.Id == id)
-                .SingleAsync();
+                .SingleOrDefaultAsync();
 
             return property;
         }

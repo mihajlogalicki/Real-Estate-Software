@@ -13,5 +13,6 @@
         public bool ReadyToMove { get; set; }
         public int SellRentType { get; set; }
         public DateTime EstablishedPossesionOn { get; set; }
+        public string PrimaryPhoto { get; set; }
     }
 }

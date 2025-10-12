@@ -37,7 +37,7 @@ export class PropertyListComponent {
         .pipe(take(1))
         .subscribe({
          next: data => {
-            this.properties = data;         
+            this.properties = data;      
         },
          error: () => {
             console.log(`Server error occured`);
