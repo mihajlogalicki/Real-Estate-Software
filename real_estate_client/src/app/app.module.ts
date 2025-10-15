@@ -40,6 +40,7 @@ import { InputTextModule } from 'primeng/inputtext';
 // Custom Pipes
 import { FilterPipe } from './Pipes/filter.pipe';
 import { SortPipe } from './Pipes/sort.pipe';
+import { PhotoEditorComponent } from './property/photo-editor/photo-editor.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { SortPipe } from './Pipes/sort.pipe';
     UserLoginComponent,
     UserRegisterComponent,
     FilterPipe,
-    SortPipe
+    SortPipe,
+    PhotoEditorComponent
   ],
   imports: [
     BrowserModule,

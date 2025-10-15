@@ -41,6 +41,12 @@ export class HttpInterceptorService implements HttpInterceptor {
             errorMessage = errorResponse.error.errorMessage ?? "Unknown server error occured.";
         }
 
+        /*TODO: Handle all error cases: 
+        1) Not authorized for set-primary photo, 
+        2) Delete photo,
+        3) Already primary photo, 
+        4) Is not owner of the property, only owner can update primary photo and delete
+        */
         return errorMessage;
     }
 

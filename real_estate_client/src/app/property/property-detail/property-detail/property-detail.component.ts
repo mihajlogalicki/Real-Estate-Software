@@ -1,6 +1,5 @@
-import { Component, ViewChild, model } from '@angular/core';
+import { Component, Output, ViewChild, model } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { take } from 'rxjs';
 import { HousingService } from '../../../services/housing.service';
 import { Property } from '../../../model/Property';
 import { Photo } from '../../../model/Photo';
@@ -55,8 +54,12 @@ export class PropertyDetailComponent {
       photosUrls.push(photo);
     }
 
-    this.primaryImage = photosUrls.find(x => x.isPrimary).imageUrl;
+    this.primaryImage = photosUrls.find(x => x.isPrimary).imageUrl; 
     return photosUrls;
+  }
+
+  primaryPhotoChanged(photo: string){
+    this.primaryImage = photo;
   }
 
   nextPage(){

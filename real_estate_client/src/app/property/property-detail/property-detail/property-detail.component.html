@@ -46,7 +46,8 @@
                 <p-tab [value]="0">Overview</p-tab>
                 <p-tab [value]="1">Address</p-tab>
                 <p-tab [value]="2">Photos</p-tab>
-                <p-tab [value]="3">Contact</p-tab>
+                <p-tab [value]="3">Upload/Edit Photos</p-tab>
+                <p-tab [value]="4">Contact</p-tab>
             </p-tablist>
             <p-tabpanels>
                 <div class="card-body">
@@ -126,6 +127,12 @@
                         </p-galleria>                    
                     </p-tabpanel>
                     <p-tabpanel [value]="3">
+                        <app-photo-editor 
+                           [property]="property"
+                           (photoChangedEvent)="primaryPhotoChanged($event)">
+                        </app-photo-editor>        
+                    </p-tabpanel>
+                    <p-tabpanel [value]="4">
                         <h1>Contact Detail</h1>
                         This should be restricted area and only registered user should be able to see seller contact details          
                     </p-tabpanel>

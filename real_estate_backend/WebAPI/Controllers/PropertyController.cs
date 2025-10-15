@@ -59,6 +59,8 @@ namespace WebAPI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> AddPropertyPhoto(IFormFile photo, int propertyId)
         {
+            // TODO: Finish user authorization, only authenticated user is able to add photo
+
             var uploadResult = await _photoService.UploadPhotoAsync(photo);
             if (uploadResult.Error != null)
             {
@@ -93,7 +95,9 @@ namespace WebAPI.Controllers
         [AllowAnonymous]
         public async Task <IActionResult> SetPrimaryPhoto(int propertyId, string publicId)
         {
-            var userId = GetUserId();
+            // TODO: Finish user authorization, not allowed for anonymous and different owner of property
+
+            // var userId = GetUserId();
 
             var propertyUpdate = await _unitOfWork.PropertyRepository.GetPropertyDetailAsync(propertyId);
             
@@ -136,6 +140,8 @@ namespace WebAPI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> DeletePhoto(int id, string publicId)
         {
+            // TODO: Finish user authorization, not allowed for anonymous and different owner of property
+
             var userId = GetUserId();
 
             var property = await _unitOfWork.PropertyRepository.GetPropertyDetailAsync(id);

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { eSellRentType } from '../property/property-list/property-list/eRealEstateType';
 import { Property } from '../model/Property';
@@ -20,7 +20,7 @@ export class HousingService {
  }
 
  getProperties(sellRentType?: number) : Observable<Property[]> {
-  return this.httpClient.get<Property[]>(this.baseUrl + "/property/list/" + sellRentType)
+  return this.httpClient.get<Property[]>(this.baseUrl + "/property/list/" + sellRentType);
  }
 
  getPropertyTypes() : Observable<IKeyValuePair[]> {
@@ -40,13 +40,19 @@ export class HousingService {
 
   const httpOptions = {
     headers: new HttpHeaders({
-      Authorization: 'Bearer ' + localStorage.getItem('token')
+       Authorization: 'Bearer ' + localStorage.getItem('token')
     })
   };
 
    return this.httpClient.post(this.baseUrl + "/property/add", property, httpOptions);
  }
 
+ setPrimaryPhoto(propertyId: number, publicId: string) : Observable<any> {
+  // TODO: add bearer token for user identification
+   return this.httpClient.post(`${this.baseUrl}/property/set-primary-photo/${propertyId}/${publicId}`, null);
+ }
+
+ // Custom service methods
  getPropertyAge(dateOfEstalishment: Date) : string {
   const today = new Date();
   const established = new Date(dateOfEstalishment);
@@ -68,8 +74,6 @@ export class HousingService {
 
   return age.toString();
  }
-
-
 
   // ** Simulate/Testing HTTP request section  **
 
