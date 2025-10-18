@@ -137,7 +137,6 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete("delete-photo/{id}/{publicId}")]
-        [AllowAnonymous]
         public async Task<IActionResult> DeletePhoto(int id, string publicId)
         {
             // TODO: Finish user authorization, not allowed for anonymous and different owner of property

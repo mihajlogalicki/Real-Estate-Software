@@ -38,7 +38,12 @@ export class HttpInterceptorService implements HttpInterceptor {
             errorMessage = "Unauthorized";
         }
         else {
-            errorMessage = errorResponse.error.errorMessage ?? "Unknown server error occured.";
+
+            if(!!errorResponse.error.errorMessage){
+                errorMessage = errorResponse.error.errorMessage;
+            } else {
+                  errorMessage = errorResponse.error ?? "Unknown server error occured.";   
+            }           
         }
 
         /*TODO: Handle all error cases: 

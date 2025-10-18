@@ -48,8 +48,19 @@ export class HousingService {
  }
 
  setPrimaryPhoto(propertyId: number, publicId: string) : Observable<any> {
-  // TODO: add bearer token for user identification
+   // TODO: add bearer token for user identification
    return this.httpClient.post(`${this.baseUrl}/property/set-primary-photo/${propertyId}/${publicId}`, null);
+ }
+
+ deletePhoto(id: number, publicId: string){
+
+    const httpOptions = {
+    headers: new HttpHeaders({
+       Authorization: 'Bearer ' + localStorage.getItem('token')
+    })
+  };
+
+  return this.httpClient.delete(`${this.baseUrl}/property/delete-photo/${id}/${publicId}`, httpOptions);
  }
 
  // Custom service methods

@@ -39,4 +39,13 @@ export class PhotoEditorComponent {
   primaryPhotoChanged(url: string){
     this.photoChangedEvent.emit(url);
   }
+
+  deletePhoto(targetPhoto: Photo) {
+    this.housingService
+        .deletePhoto(targetPhoto.propertyId, targetPhoto.publicId)
+        .pipe(take(1))
+        .subscribe(response => {
+          this.property.photos = this.property.photos.filter(p => p.publicId != targetPhoto.publicId);
+        })
+  }
 }
