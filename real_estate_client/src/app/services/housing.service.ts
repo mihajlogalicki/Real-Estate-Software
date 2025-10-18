@@ -38,18 +38,23 @@ export class HousingService {
   // HTTP POST requests
  addProperty(property: Property) : Observable<any> {
 
-  const httpOptions = {
-    headers: new HttpHeaders({
-       Authorization: 'Bearer ' + localStorage.getItem('token')
-    })
-  };
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+      })
+    };
 
    return this.httpClient.post(this.baseUrl + "/property/add", property, httpOptions);
  }
 
  setPrimaryPhoto(propertyId: number, publicId: string) : Observable<any> {
-   // TODO: add bearer token for user identification
-   return this.httpClient.post(`${this.baseUrl}/property/set-primary-photo/${propertyId}/${publicId}`, null);
+      const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+      })
+    };
+
+   return this.httpClient.post(`${this.baseUrl}/property/set-primary-photo/${propertyId}/${publicId}`, null, httpOptions);
  }
 
  deletePhoto(id: number, publicId: string){

@@ -92,12 +92,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("set-primary-photo/{propertyId}/{publicId}")]
-        [AllowAnonymous]
         public async Task <IActionResult> SetPrimaryPhoto(int propertyId, string publicId)
         {
-            // TODO: Finish user authorization, not allowed for anonymous and different owner of property
-
-            // var userId = GetUserId();
+            var userId = GetUserId();
 
             var propertyUpdate = await _unitOfWork.PropertyRepository.GetPropertyDetailAsync(propertyId);
             
@@ -106,10 +103,10 @@ namespace WebAPI.Controllers
                 return BadRequest("Property does not exists!");
             }
 
-            //if(propertyUpdate.PostedBy != userId)
-            //{
-            //    return BadRequest("You are not authorized to change the photo!");
-            // }
+            if(propertyUpdate.PostedBy != userId)
+            {
+                return BadRequest("You are not authorized to change the photo!");
+            }
 
             var file = propertyUpdate.Photos.FirstOrDefault(p => p.PublicId == publicId);   
             if(file == null)
