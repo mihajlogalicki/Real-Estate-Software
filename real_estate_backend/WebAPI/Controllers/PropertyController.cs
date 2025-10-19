@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.DTOs;
@@ -57,38 +58,48 @@ namespace WebAPI.Controllers
 
         [HttpPost("add/photo/{propertyId}")]
         [AllowAnonymous]
-        public async Task<IActionResult> AddPropertyPhoto(IFormFile photo, int propertyId)
+        public async Task<ActionResult<List<PhotoDto>>> AddPropertyPhoto(List<IFormFile> files, int propertyId)
         {
             // TODO: Finish user authorization, only authenticated user is able to add photo
 
-            var uploadResult = await _photoService.UploadPhotoAsync(photo);
-            if (uploadResult.Error != null)
-            {
-                return BadRequest(uploadResult.Error.Message);
-            }
-
             var propertyDb = await _unitOfWork.PropertyRepository.GetPropertyPhotoAsync(propertyId);
 
-            if(propertyDb == null)
+            if (propertyDb == null)
             {
                 return BadRequest("Property does not exists!");
             }
+            var filesResult = new List<PhotoDto>();
 
-            var file = new Photo()
+            foreach (var file in files)
             {
-                ImageUrl = uploadResult.SecureUrl.AbsoluteUri,
-                PublicId = uploadResult.PublicId
-            };
+                var photoResult = await _photoService.UploadPhotoAsync(file);
+                if (photoResult.Error != null)
+                {
+                    return BadRequest(photoResult.Error.Message);
+                }
 
-            if(propertyDb.Photos.Count == 0)
-            {
-                file.IsPrimary = true;
+                var photo = new Photo()
+                {
+                    ImageUrl = photoResult.SecureUrl.AbsoluteUri,
+                    PublicId = photoResult.PublicId
+                };
+
+                if (propertyDb.Photos.Count == 0)
+                {
+                    photo.IsPrimary = true;
+                }
+
+                propertyDb.Photos.Add(photo);
+                filesResult.Add(new PhotoDto { ImageUrl = photo.ImageUrl, PublicId  = photo.PublicId});
             }
 
-            propertyDb.Photos.Add(file);
-            await _unitOfWork.SaveAsync();
+            bool isSaved = await _unitOfWork.SaveAsync();
+            if (isSaved)
+            {
+                return filesResult;
+            }
 
-            return StatusCode(201);
+            return BadRequest("Problem occured while uploading the photo.");
         }
 
         [HttpPost("set-primary-photo/{propertyId}/{publicId}")]

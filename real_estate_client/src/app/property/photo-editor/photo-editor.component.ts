@@ -23,17 +23,31 @@ export class PhotoEditorComponent {
         .pipe(take(1))
         .subscribe(data => {
 
-          this.primaryPhotoChanged(targetPhoto.imageUrl);
+        this.primaryPhotoChanged(targetPhoto.imageUrl);
           
-          this.property.photos.forEach(photo => {
+        this.property.photos.forEach(photo => {
             if(photo.isPrimary){
                photo.isPrimary = false;
             }
             if(photo.publicId === targetPhoto.publicId) {
                photo.isPrimary = true;
             }
-          })
+        })
     });
+  }
+
+  onFileUploadClicked(event: any) {
+    const formData = new FormData();
+    for(let file of event.files){
+      formData.append('files', file);
+    }
+
+    this.housingService
+        .addPhotos(formData, this.property.id)
+        .pipe(take(1))
+        .subscribe(uploadedFilesResponse => {
+          this.property.photos.push(...uploadedFilesResponse);
+        })
   }
 
   primaryPhotoChanged(url: string){

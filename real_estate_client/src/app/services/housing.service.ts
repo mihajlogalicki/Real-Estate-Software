@@ -5,6 +5,7 @@ import { eSellRentType } from '../property/property-list/property-list/eRealEsta
 import { Property } from '../model/Property';
 import { environment } from '../Environments/environment';
 import { IKeyValuePair } from '../model/IKeyValuePair';
+import { Photo } from '../model/Photo';
 
 @Injectable({
   providedIn: 'root'
@@ -35,9 +36,9 @@ export class HousingService {
     return this.httpClient.get<Property>(this.baseUrl + "/property/detail/" + id);
  }
 
-  // HTTP POST requests
+  
+ // HTTP POST requests
  addProperty(property: Property) : Observable<any> {
-
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -45,6 +46,10 @@ export class HousingService {
     };
 
    return this.httpClient.post(this.baseUrl + "/property/add", property, httpOptions);
+ }
+
+ addPhotos(photos: FormData, id: number) : Observable<any> {
+   return this.httpClient.post(this.baseUrl + "/property/add/photo/"+id, photos);
  }
 
  setPrimaryPhoto(propertyId: number, publicId: string) : Observable<any> {
@@ -58,7 +63,6 @@ export class HousingService {
  }
 
  deletePhoto(id: number, publicId: string){
-
     const httpOptions = {
     headers: new HttpHeaders({
        Authorization: 'Bearer ' + localStorage.getItem('token')

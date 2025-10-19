@@ -36,6 +36,7 @@ import { DatePicker } from 'primeng/datepicker';
 import { GalleriaModule } from 'primeng/galleria';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
+import { FileUploadModule } from 'primeng/fileupload';
 
 // Custom Pipes
 import { FilterPipe } from './Pipes/filter.pipe';
@@ -71,7 +72,8 @@ import { PhotoEditorComponent } from './property/photo-editor/photo-editor.compo
     GalleriaModule,
     DropdownModule,
     InputTextModule,
-    HttpClientModule
+    HttpClientModule,
+    FileUploadModule
 ],
   providers: [
     {
