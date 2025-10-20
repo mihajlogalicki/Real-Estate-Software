@@ -1,59 +1,12 @@
-# RealEstateClient
+## Real Estate Aplication functionality
+Sign-in user is able to add property details including: Sell or Rent property, price, multiple images, property type,
+furnished or not, property ready to move (establishment), property is not ready to move (possession/available from)...
+Property owner is able to add multiple images for particular property, delete images, set primary photo.
+Main page contains filter functionality for properties (sort by price, name, search, preview property detail).
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.2.
+## Technology stack & implementation description
+BACK-END: .NET Core, Cloudinary file storing, Entity Framework Core, Migration with Code-First approach, Microsoft SQL Server, Authentication & Authorization, REST APIs, Dependency Injection,
+Unit Of Work + Repository pattern, generating JWT, Custom Cryptography password, DTOs, Custom Middleware error handler, AutoMapper, Data Annotations, Exception handling with specific HTTP status.
 
-## Development server
-
-To start a local development server, run:
-
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+FRONT-END: Angular 19, RxJS operators, Prime-NG library, interceptor, Angular pipes, Services for HTTP request handling,
+Component communication with @Input/@Output decorators, App module for registering all components, providers, configurations, PrimeNG modules.
