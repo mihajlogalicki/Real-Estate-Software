@@ -3,6 +3,7 @@ import { Property } from '../../model/Property';
 import { Photo } from '../../model/Photo';
 import { HousingService } from '../../services/housing.service';
 import { take } from 'rxjs';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-photo-editor',
@@ -15,7 +16,7 @@ export class PhotoEditorComponent {
   @Input() property: Property;
   @Output() photoChangedEvent = new EventEmitter<string>();
 
-  constructor(private housingService: HousingService){}
+  constructor(private housingService: HousingService, private messageService: MessageService){}
 
   setPrimaryPhoto(targetPhoto: Photo) {
     this.housingService
@@ -47,6 +48,7 @@ export class PhotoEditorComponent {
         .pipe(take(1))
         .subscribe(uploadedFilesResponse => {
           this.property.photos.push(...uploadedFilesResponse);
+          this.messageService.add({ severity: 'success', summary: 'Photos added successfully.', life: 4000});
         })
   }
 
